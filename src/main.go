@@ -10,61 +10,62 @@ import (
 )
 
 var (
-	container = []syscall.Handle{}
+	user32      = windows.NewLazyDLL("user32.dll")
+	isIconic    = user32.NewProc("IsIconic")
+	enumWindows = user32.NewProc("EnumWindows")
 )
 
 var (
-	user32      = windows.NewLazyDLL("user32.dll")
-	enumWindows = user32.NewProc("EnumWindows")
-	isIconic    = user32.NewProc("IsIconic")
+	container = []syscall.Handle{}
 )
+
+func printDebugWindow(h syscall.Handle) {
+	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
+	windowText := w32.GetWindowText(uintptr(h))
+
+	fmt.Print("\n\n")
+	fmt.Printf("GetWindowText: %+v\n", windowText)
+	fmt.Printf("isIconic: %+v\n", isWindowIconic)
+
+}
+
+func isElibible(h syscall.Handle) bool {
+	isWindowVisible := w32.IsWindowVisible(uintptr(h))
+	isWindow := w32.IsWindow(uintptr(h))
+	isWindowEnabled := w32.IsWindowEnabled(uintptr(h))
+	windowText := w32.GetWindowText(uintptr(h))
+	className, _ := jw32.GetClassName(jw32.HWND(h))
+
+	if !isWindow ||
+		!isWindowEnabled ||
+		!isWindowVisible ||
+		windowText == "" ||
+		className == "Windows.UI.Core.CoreWindow" ||
+		windowText == "Program Manager" {
+		return false
+	}
+	return true
+
+}
 
 func start() {
 	cb := syscall.NewCallback(func(h syscall.Handle, p uintptr) uintptr {
-		var dddd w32.WINDOWINFO
-		var windowPlacement w32.WINDOWPLACEMENT
-		isWindowVisible := w32.IsWindowVisible(uintptr(h))
-		w32.GetWindowInfo(uintptr(h), &dddd)
-		w32.GetWindowPlacement(uintptr(h), &windowPlacement)
-		isWindow := w32.IsWindow(uintptr(h))
-		isWindowEnabled := w32.IsWindowEnabled(uintptr(h))
-
-		name, _ := jw32.GetClassName(jw32.HWND(h))
-
-		windowTitle := w32.GetWindowText(uintptr(h))
-		if isWindow && isWindowEnabled && isWindowVisible {
-			if name != "Windows.UI.Core....CoreWindow" && windowTitle != "Program Manager" {
-				fmt.Println("")
-				fmt.Println("")
-				fmt.Println(w32.GetWindowText(uintptr(h)))
-				fmt.Println(isIconic.Call(uintptr(h)))
-				fmt.Printf("%+v", windowPlacement)
-
-			}
+		if !isElibible(h) {
+			return 1
 		}
+
+		printDebugWindow(h)
+		container = append(container, h)
 
 		return 1
 	})
 
 	enumWindows.Call(cb, 0)
+
+	fmt.Printf("container: %+v\n", container)
+
 }
 
 func main() {
 	start()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Printf("Found '%s' window: handle=0x%x\n", title, h)
 }
-
-// [] What is getclient
-// [] What is ismanageble
-// [] What is manage
-
-// BOOL CALLBACK scan(HWND hwnd, LPARAM lParam) {
-//   Client *c = getclient(hwnd);
-//   if (c)
-//     c->isalive = true;
-//   else if (ismanageable(hwnd))
-//     manage(hwnd);
-//
