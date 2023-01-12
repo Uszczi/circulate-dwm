@@ -1,6 +1,7 @@
 package main
 
 import (
+	"circulate/circulate/layouts"
 	"fmt"
 	"syscall"
 
@@ -68,4 +69,5 @@ func start() {
 
 func main() {
 	start()
+	layouts.Dee(container)
 }
