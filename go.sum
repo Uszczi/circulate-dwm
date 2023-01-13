@@ -1,3 +1,5 @@
+github.com/Archs/go-htmlayout v0.0.0-20150704084906-caef4633951b h1:+oXCEt2IVmlmMclzOZoHfz2T4GxpDjAX59BzC2DVVfc=
+github.com/Archs/go-htmlayout v0.0.0-20150704084906-caef4633951b/go.mod h1:C6kdmZWR8TYNxlE3jVieQCY/2bdY+0QON+g7Hi2ntqY=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/inconshreveable/mousetrap v1.0.1/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
@@ -5,6 +7,8 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/jcollie/w32 v1.0.0 h1:dJ0Otkrm+cZXAGvWhTLK60NdqWTvYUuxx0HX8i6O+JY=
 github.com/jcollie/w32 v1.0.0/go.mod h1:pFYs2X1qM8tpBEhLTdlUqNowBsZdd2JkDzyNicE25GU=
+github.com/lxn/win v0.0.0-20210218163916-a377121e959e h1:H+t6A/QJMbhCSEH5rAuRxh+CtW96g0Or0Fxa9IKr4uc=
+github.com/lxn/win v0.0.0-20210218163916-a377121e959e/go.mod h1:KxxjdtRkfNoYDCUP5ryK7XJJNTnpC8atvtmTheChOtk=
 github.com/nametake/golangci-lint-langserver v0.0.7 h1:0OdfrT1eR+5HLsPrWZ0IV2B3Z4w+dPkyWaZURH/bt78=
 github.com/nametake/golangci-lint-langserver v0.0.7/go.mod h1:/z3E2ILvhohCW+WAl3JCjVJRB0oC3GHKBnSKCCkfAiQ=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
@@ -16,6 +20,7 @@ github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=
 github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
 github.com/tadvi/winc v0.0.0-20210907234902-33fdab6e7e58 h1:h0tZ6ToFW9PUGt+145I77PGTeWa75hfJBs1kw9CgMZg=
 github.com/tadvi/winc v0.0.0-20210907234902-33fdab6e7e58/go.mod h1:tNBZi4sduF/C3bQE2wGTIccmErQ4A9M9QkPsICVg+oE=
+golang.org/x/sys v0.0.0-20201018230417-eeed37f84f13/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.4.0 h1:Zr2JFtRQNX3BCZ8YtxRE9hNJYC8J6I1MVbMg6owUp18=
 golang.org/x/sys v0.4.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=

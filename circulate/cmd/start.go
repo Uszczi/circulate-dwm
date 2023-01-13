@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"circulate/circulate/core"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +15,7 @@ var startCommand = &cobra.Command{
 	Short: "",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("[TODO] version ouput")
+		core.Start()
 		// [TODO] add short version
 	},
 }
