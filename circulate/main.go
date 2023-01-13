@@ -1,109 +1,253 @@
 package main
 
 import (
-	"circulate/circulate/cmd"
-	"circulate/circulate/layouts"
-	"fmt"
+	"log"
 	"syscall"
-
-	jw32 "github.com/jcollie/w32"
-	"github.com/tadvi/winc/w32"
-	"golang.org/x/sys/windows"
+	"unsafe"
 )
 
 var (
-	user32      = windows.NewLazyDLL("user32.dll")
-	isIconic    = user32.NewProc("IsIconic")
-	enumWindows = user32.NewProc("EnumWindows")
+	kernel32 = syscall.NewLazyDLL("kernel32.dll")
+
+	pGetModuleHandleW = kernel32.NewProc("GetModuleHandleW")
 )
 
-var (
-	container = []syscall.Handle{}
-)
-
-func printDebugWindow(h syscall.Handle) {
-	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
-	windowText := w32.GetWindowText(uintptr(h))
-
-	fmt.Print("\n\n")
-	fmt.Printf("GetWindowText: %+v\n", windowText)
-	fmt.Printf("isIconic: %+v\n", isWindowIconic)
-
-}
-
-func isElibible(h syscall.Handle) bool {
-	isWindowVisible := w32.IsWindowVisible(uintptr(h))
-	isWindow := w32.IsWindow(uintptr(h))
-	isWindowEnabled := w32.IsWindowEnabled(uintptr(h))
-	windowText := w32.GetWindowText(uintptr(h))
-	className, _ := jw32.GetClassName(jw32.HWND(h))
-
-	if !isWindow ||
-		!isWindowEnabled ||
-		!isWindowVisible ||
-		windowText == "" ||
-		className == "Windows.UI.Core.CoreWindow" ||
-		windowText == "Program Manager" {
-		return false
+func getModuleHandle() (syscall.Handle, error) {
+	ret, _, err := pGetModuleHandleW.Call(uintptr(0))
+	if ret == 0 {
+		return 0, err
 	}
-	return true
-
+	return syscall.Handle(ret), nil
 }
 
-func start() {
-	cb := syscall.NewCallback(func(h syscall.Handle, p uintptr) uintptr {
-		if !isElibible(h) {
-			return 1
-		}
+var (
+	user32 = syscall.NewLazyDLL("user32.dll")
 
-		printDebugWindow(h)
-		container = append(container, h)
+	pCreateWindowExW  = user32.NewProc("CreateWindowExW")
+	pDefWindowProcW   = user32.NewProc("DefWindowProcW")
+	pDestroyWindow    = user32.NewProc("DestroyWindow")
+	pDispatchMessageW = user32.NewProc("DispatchMessageW")
+	pGetMessageW      = user32.NewProc("GetMessageW")
+	pLoadCursorW      = user32.NewProc("LoadCursorW")
+	pPostQuitMessage  = user32.NewProc("PostQuitMessage")
+	pRegisterClassExW = user32.NewProc("RegisterClassExW")
+	pTranslateMessage = user32.NewProc("TranslateMessage")
+)
 
-		return 1
-	})
+const (
+	cSW_SHOW        = 5
+	cSW_USE_DEFAULT = 0x80000000
+)
 
-	enumWindows.Call(cb, 0)
+const (
+	cWS_MAXIMIZE_BOX = 0x00010000
+	cWS_MINIMIZEBOX  = 0x00020000
+	cWS_THICKFRAME   = 0x00040000
+	cWS_SYSMENU      = 0x00080000
+	cWS_CAPTION      = 0x00C00000
+	cWS_VISIBLE      = 0x10000000
 
-	fmt.Printf("container: %+v\n", container)
+	cWS_OVERLAPPEDWINDOW = 0x00CF0000
+)
 
+func createWindow(className, windowName string, style uint64, x, y, width, height uint64, parent, menu, instance syscall.Handle) (syscall.Handle, error) {
+	ret, _, err := pCreateWindowExW.Call(
+		uintptr(0),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(className))),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(windowName))),
+		uintptr(style),
+		uintptr(x),
+		uintptr(y),
+		uintptr(width),
+		uintptr(height),
+		uintptr(parent),
+		uintptr(menu),
+		uintptr(instance),
+		uintptr(0),
+	)
+	if ret == 0 {
+		return 0, err
+	}
+	return syscall.Handle(ret), nil
 }
 
-func aaa() {
-	start()
-	layouts.Dee(container)
+const (
+	cWM_DESTROY = 0x0002
+	cWM_CLOSE   = 0x0010
+)
+
+func defWindowProc(hwnd syscall.Handle, msg uint32, wparam, lparam uintptr) uintptr {
+	ret, _, _ := pDefWindowProcW.Call(
+		uintptr(hwnd),
+		uintptr(msg),
+		uintptr(wparam),
+		uintptr(lparam),
+	)
+	return uintptr(ret)
 }
 
-// If I need some info about specific process
-// package main
-//
-// import (
-// 	"log"
-//
-// 	ps "github.com/mitchellh/go-ps"
-// 	ps2 "github.com/shirou/gopsutil/process"
-// )
-//
-// func main() {
-// 	processList, err := ps.Processes()
-// 	if err != nil {
-// 		log.Println("ps.Processes() Failed, are you using windows?")
-// 		return
-// 	}
-//
-// 	// map ages
-// 	for x := range processList {
-// 		var process ps.Process
-// 		process = processList[x]
-// 		a, b := ps.FindProcess(process.Pid())
-// 		log.Printf("%d\t%s\n", process.Pid(), process.Executable())
-// 		log.Println(a, b)
-// 		p := ps2.Process{Pid: int32(process.Pid())}
-// 		log.Println(p.Exe())
-//
-// 		// do os.* stuff on the pid
-// 	}
-// }
+func destroyWindow(hwnd syscall.Handle) error {
+	ret, _, err := pDestroyWindow.Call(uintptr(hwnd))
+	if ret == 0 {
+		return err
+	}
+	return nil
+}
+
+type tPOINT struct {
+	x, y int32
+}
+
+type tMSG struct {
+	hwnd    syscall.Handle
+	message uint32
+	wParam  uintptr
+	lParam  uintptr
+	time    uint32
+	pt      tPOINT
+}
+
+func dispatchMessage(msg *tMSG) {
+	pDispatchMessageW.Call(uintptr(unsafe.Pointer(msg)))
+}
+
+func getMessage(msg *tMSG, hwnd syscall.Handle, msgFilterMin, msgFilterMax uint32) (bool, error) {
+	ret, _, err := pGetMessageW.Call(
+		uintptr(unsafe.Pointer(msg)),
+		uintptr(hwnd),
+		uintptr(msgFilterMin),
+		uintptr(msgFilterMax),
+	)
+	if int32(ret) == -1 {
+		return false, err
+	}
+	return int32(ret) != 0, nil
+}
+
+const (
+	cIDC_ARROW = 32512
+)
+
+func loadCursorResource(cursorName uint32) (syscall.Handle, error) {
+	ret, _, err := pLoadCursorW.Call(
+		uintptr(0),
+		uintptr(uint16(cursorName)),
+	)
+	if ret == 0 {
+		return 0, err
+	}
+	return syscall.Handle(ret), nil
+}
+
+func postQuitMessage(exitCode int32) {
+	pPostQuitMessage.Call(uintptr(exitCode))
+}
+
+const (
+	cCOLOR_WINDOW = 5
+)
+
+type tWNDCLASSEXW struct {
+	size       uint32
+	style      uint32
+	wndProc    uintptr
+	clsExtra   int32
+	wndExtra   int32
+	instance   syscall.Handle
+	icon       syscall.Handle
+	cursor     syscall.Handle
+	background syscall.Handle
+	menuName   *uint16
+	className  *uint16
+	iconSm     syscall.Handle
+}
+
+func registerClassEx(wcx *tWNDCLASSEXW) (uint16, error) {
+	ret, _, err := pRegisterClassExW.Call(
+		uintptr(unsafe.Pointer(wcx)),
+	)
+	if ret == 0 {
+		return 0, err
+	}
+	return uint16(ret), nil
+}
+
+func translateMessage(msg *tMSG) {
+	pTranslateMessage.Call(uintptr(unsafe.Pointer(msg)))
+}
 
 func main() {
-	cmd.Execute()
+	className := "testClass"
+
+	instance, err := getModuleHandle()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	cursor, err := loadCursorResource(cIDC_ARROW)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	fn := func(hwnd syscall.Handle, msg uint32, wparam, lparam uintptr) uintptr {
+		switch msg {
+		case cWM_CLOSE:
+			destroyWindow(hwnd)
+		case cWM_DESTROY:
+			postQuitMessage(0)
+		default:
+			ret := defWindowProc(hwnd, msg, wparam, lparam)
+			return ret
+		}
+		return 0
+	}
+
+	wcx := tWNDCLASSEXW{
+		wndProc:    syscall.NewCallback(fn),
+		instance:   instance,
+		cursor:     cursor,
+		background: cCOLOR_WINDOW + 1,
+		className:  syscall.StringToUTF16Ptr(className),
+	}
+	wcx.size = uint32(unsafe.Sizeof(wcx))
+
+	if _, err = registerClassEx(&wcx); err != nil {
+		log.Println(err)
+		return
+	}
+
+	_, err = createWindow(
+		className,
+		"Test Window",
+		cWS_VISIBLE|cWS_OVERLAPPEDWINDOW,
+		cSW_USE_DEFAULT,
+		cSW_USE_DEFAULT,
+		cSW_USE_DEFAULT,
+		cSW_USE_DEFAULT,
+		0,
+		0,
+		instance,
+	)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	for {
+		msg := tMSG{}
+		gotMessage, err := getMessage(&msg, 0, 0, 0)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		if gotMessage {
+			translateMessage(&msg)
+			dispatchMessage(&msg)
+		} else {
+			break
+		}
+	}
 }
