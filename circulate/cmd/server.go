@@ -7,15 +7,15 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(startCommand)
+	rootCmd.AddCommand(server)
 }
 
-var startCommand = &cobra.Command{
-	Use:   "start2",
+var server = &cobra.Command{
+	Use:   "start",
 	Short: "",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		core.Start()
+		core.Main()
 		// [TODO] add short version
 	},
 }

@@ -21,8 +21,6 @@ func getModuleHandle() (syscall.Handle, error) {
 }
 
 var (
-	user32 = syscall.NewLazyDLL("user32.dll")
-
 	pCreateWindowExW  = user32.NewProc("CreateWindowExW")
 	pDefWindowProcW   = user32.NewProc("DefWindowProcW")
 	pDestroyWindow    = user32.NewProc("DestroyWindow")

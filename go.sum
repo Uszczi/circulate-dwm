@@ -1,5 +1,7 @@
 github.com/Archs/go-htmlayout v0.0.0-20150704084906-caef4633951b h1:+oXCEt2IVmlmMclzOZoHfz2T4GxpDjAX59BzC2DVVfc=
 github.com/Archs/go-htmlayout v0.0.0-20150704084906-caef4633951b/go.mod h1:C6kdmZWR8TYNxlE3jVieQCY/2bdY+0QON+g7Hi2ntqY=
+github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef h1:2JGTg6JapxP9/R33ZaagQtAM4EkkSYnIAlOG5EI8gkM=
+github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef/go.mod h1:JS7hed4L1fj0hXcyEejnW57/7LCetXggd+vwrRnYeII=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/inconshreveable/mousetrap v1.0.1/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
