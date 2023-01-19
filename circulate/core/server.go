@@ -3,9 +3,9 @@ package core
 import (
 	"fmt"
 	"log"
+	"os"
 	"syscall"
 
-	"github.com/asaskevich/EventBus"
 	jw32 "github.com/jcollie/w32"
 	"github.com/tadvi/winc/w32"
 	"golang.org/x/sys/windows"
@@ -100,28 +100,32 @@ func Handler(str string) {
 }
 
 func Main() {
-	client := EventBus.NewClient(":2015", "/_client_bus_", EventBus.New())
-	fmt.Println(client)
-	client.Start()
-	fmt.Println("started")
-	client.Subscribe("main:calculator", Handler, ":2015", "/_client_bus_")
-	fmt.Println("started")
-	client.Stop()
+	// client := EventBus.NewClient(":2015", "/_client_bus_", EventBus.New())
+	// fmt.Println(client)
+	// client.Start()
+	// fmt.Println("started")
+	// client.Subscribe("main:calculator", Handler, ":2015", "/_client_bus_")
+	// fmt.Println("started")
+	// client.Stop()
+	fmt.Println("pid: ", os.Getpid())
 
-	// hinst := w32.GetModuleHandle("")
-	//
-	// fmt.Println(hinst)
-	//
-	// winEvHook := SetWinEventHook(0x8000, 0x8000, 0, ActiveWinEventHook, 0, 0, WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS)
-	// defer w32.UnhookWindowsHookEx(w32.HANDLE(winEvHook))
-	//
-	// for {
-	// 	var msg w32.MSG
-	// 	if m := w32.GetMessage(&msg, 0, 0, 0); m != 0 {
-	// 		w32.TranslateMessage(&msg)
-	// 		w32.DispatchMessage(&msg)
-	// 	}
-	// }
+	currentThread := w32.GetCurrentThread()
+	fmt.Println(currentThread)
+
+	hinst := w32.GetModuleHandle("")
+
+	fmt.Println(hinst)
+
+	winEvHook := SetWinEventHook(0x8000, 0x8000, 0, ActiveWinEventHook, 0, 0, WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS)
+	defer w32.UnhookWindowsHookEx(w32.HANDLE(winEvHook))
+
+	for {
+		var msg w32.MSG
+		if m := w32.GetMessage(&msg, 0, 0, 0); m != 0 {
+			w32.TranslateMessage(&msg)
+			w32.DispatchMessage(&msg)
+		}
+	}
 }
 
 func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, pfnWinEventProc WINEVENTPROC, idProcess DWORD, idThread DWORD, dwFlags DWORD) HWINEVENTHOOK {

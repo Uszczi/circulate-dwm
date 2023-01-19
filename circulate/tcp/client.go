@@ -76,7 +76,7 @@ func handle(conn net.Conn) {
 }
 
 func Run() {
-	server, _ := net.Listen("tcp", ":8081")
+	server, _ := net.Listen("tcp", "localhost:8081")
 	for {
 		conn, err := server.Accept()
 		if err != nil {

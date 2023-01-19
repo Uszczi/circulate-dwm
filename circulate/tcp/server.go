@@ -44,7 +44,7 @@ func recv(conn net.Conn) {
 }
 
 func SendCommand() {
-	conn, _ := net.Dial("tcp", ":8081")
+	conn, _ := net.Dial("tcp", "127.0.0.1:8081")
 
 	// Uncomment to test timeout
 	// time.Sleep(5 * time.Second)
