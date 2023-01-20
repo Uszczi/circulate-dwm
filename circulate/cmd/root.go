@@ -9,8 +9,6 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "circulate",
-	Short: "",
-	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Do Stuff Here
 	},

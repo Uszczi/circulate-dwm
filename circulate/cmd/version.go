@@ -12,10 +12,7 @@ func init() {
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "",
-	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("[TODO] add version ouput")
-		// [TODO] add short version
 	},
 }

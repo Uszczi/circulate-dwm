@@ -12,8 +12,6 @@ func init() {
 
 var send = &cobra.Command{
 	Use:   "ping",
-	Short: "",
-	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
         tcp.SendCommand()
 	},

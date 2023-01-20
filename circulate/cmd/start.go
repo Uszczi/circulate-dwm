@@ -16,8 +16,6 @@ func init() {
 
 var startCommand = &cobra.Command{
 	Use:   "start",
-	Short: "",
-	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		start()
 	},
@@ -25,19 +23,12 @@ var startCommand = &cobra.Command{
 
 func start(){
     fmt.Println("Start circulate")
+
 	wg.Add(1)
+
     go tcp.Run()
+
     wg.Wait()
-	// 	go core.Main()
-	//
-	// 	wg.Wait()
-	//
-	// } else {
-	// 	tcp.SendCommand()
-	// }
-
-
-
 }
 
 

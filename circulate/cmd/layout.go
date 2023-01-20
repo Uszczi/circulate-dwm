@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/circulate/core"
+	usecase "circulate/circulate/usecase"
 
 	"github.com/spf13/cobra"
 )
@@ -14,26 +14,20 @@ func init() {
 
 var setLayout = &cobra.Command{
 	Use:   "set-layout",
-	Short: "",
-	Long:  "",
 }
 
 var rows = &cobra.Command{
 	Use:   "rows",
-	Short: "",
-	Long:  "",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.Start()
+		usecase.SetRowLayout()
 	},
 }
 
 var columns = &cobra.Command{
 	Use:   "columns",
-	Short: "",
-	Long:  "",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.Start()
+        usecase.SetColumnLayout()
 	},
 }
