@@ -1,21 +1,44 @@
 package cmd
 
 import (
-	"circulate/circulate/core"
+	"circulate/circulate/tcp"
+	"fmt"
+	"sync"
 
 	"github.com/spf13/cobra"
 )
+
+var wg sync.WaitGroup
 
 func init() {
 	rootCmd.AddCommand(startCommand)
 }
 
 var startCommand = &cobra.Command{
-	Use:   "start2",
+	Use:   "start",
 	Short: "",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		core.Start()
-		// [TODO] add short version
+		start()
 	},
 }
+
+func start(){
+    fmt.Println("Start circulate")
+	wg.Add(1)
+    go tcp.Run()
+    wg.Wait()
+	// 	go core.Main()
+	//
+	// 	wg.Wait()
+	//
+	// } else {
+	// 	tcp.SendCommand()
+	// }
+
+
+
+}
+
+
+

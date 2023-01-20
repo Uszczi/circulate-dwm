@@ -16,9 +16,6 @@ var setLayout = &cobra.Command{
 	Use:   "set-layout",
 	Short: "",
 	Long:  "",
-
-	Run: func(cmd *cobra.Command, args []string) {
-	},
 }
 
 var rows = &cobra.Command{
@@ -32,7 +29,7 @@ var rows = &cobra.Command{
 }
 
 var columns = &cobra.Command{
-	Use:   "rows",
+	Use:   "columns",
 	Short: "",
 	Long:  "",
 

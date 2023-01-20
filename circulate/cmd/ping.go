@@ -1,21 +1,20 @@
 package cmd
 
 import (
-	"circulate/circulate/core"
+	"circulate/circulate/tcp"
 
 	"github.com/spf13/cobra"
 )
 
 func init() {
-	rootCmd.AddCommand(server)
+	rootCmd.AddCommand(send)
 }
 
-var server = &cobra.Command{
-	Use:   "start",
+var send = &cobra.Command{
+	Use:   "ping",
 	Short: "",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		core.Main()
-		// [TODO] add short version
+        tcp.SendCommand()
 	},
 }
