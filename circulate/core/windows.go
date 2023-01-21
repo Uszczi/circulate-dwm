@@ -2,10 +2,11 @@ package core
 
 import (
 	"circulate/circulate/layouts"
+	"log"
 	"syscall"
 
-	"github.com/tadvi/winc/w32"
 	jw32 "github.com/jcollie/w32"
+	"github.com/tadvi/winc/w32"
 	"golang.org/x/sys/windows"
 )
 
@@ -38,10 +39,23 @@ func isElibible(h syscall.Handle) bool {
 	isWindowEnabled := w32.IsWindowEnabled(uintptr(h))
 	windowText := w32.GetWindowText(uintptr(h))
 	className, _ := jw32.GetClassName(jw32.HWND(h))
+	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
+
+
+    // w32.SetForegroundWindow()
+    if h == 525892 {
+        w32.SetForegroundWindow(uintptr(h))
+        log.Println("SETTTINGGGG")
+    }
+
+
+
+
 
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||
+        isWindowIconic == 1 ||
 		className == "Windows.UI.Core.CoreWindow" ||
 		windowText == "" ||
 		windowText == "Program Manager" ||
@@ -51,6 +65,16 @@ func isElibible(h syscall.Handle) bool {
 
 		return false
 	}
+
+    log.Printf("\n\n")
+    log.Println("windowText: ", windowText)
+    log.Println("HWND: ", h)
+    log.Println("isWindowVisible: ", isWindowVisible)
+    log.Println("isWindow: ", isWindow)
+    log.Println("isWindowEnabled: ", isWindowEnabled)
+    log.Println("className: ", className)
+    log.Println("isWindowIconic: ", isWindowIconic)
+
 
 	return true
 
