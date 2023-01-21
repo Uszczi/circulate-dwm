@@ -10,7 +10,6 @@ require (
 
 require (
 	github.com/Archs/go-htmlayout v0.0.0-20150704084906-caef4633951b // indirect
-	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
 	github.com/nametake/golangci-lint-langserver v0.0.7 // indirect
