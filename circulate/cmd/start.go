@@ -26,8 +26,8 @@ func start() {
 
 	wg.Add(2)
 
-	go core.Run()
-	go core.Main()
+	go core.RunTcpServer()
+	go core.RunWindowsServer()
 
 	wg.Wait()
 }

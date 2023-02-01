@@ -100,7 +100,7 @@ func Handler(str string) {
 	fmt.Println("handerrr", str)
 }
 
-func Main() {
+func RunWindowsServer() {
 	w32.GetModuleHandle("")
 
 	winEvHook := SetWinEventHook(0x8000, 0x8000, 0, ActiveWinEventHook, 0, 0, WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS)

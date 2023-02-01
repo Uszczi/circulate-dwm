@@ -103,7 +103,7 @@ func handle(conn net.Conn) {
 	resp(conn)
 }
 
-func Run() {
+func RunTcpServer() {
 	server, _ := net.Listen("tcp", "localhost:8018")
 	for {
 		conn, err := server.Accept()
