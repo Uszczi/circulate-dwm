@@ -2,6 +2,7 @@ package core
 
 import (
 	"bytes"
+	"circulate/circulate/store"
 	"encoding/gob"
 	"fmt"
 	"io"
@@ -82,6 +83,11 @@ func read(conn net.Conn) {
 		_ = gobobj.Decode(tmpstruct)
 
 		fmt.Println(tmpstruct)
+		fmt.Println("Prevous active layout", store.GetActiveLayout())
+		store.SetActiveLayout(tmpstruct.Data)
+		if tmpstruct.Data == "toogle" {
+			UseSetHowHide()
+		}
 		return
 	}
 }
