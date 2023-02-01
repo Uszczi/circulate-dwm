@@ -20,7 +20,7 @@ func PrintDebugWindow(h uintptr) {
 
 	fmt.Printf("\nGetWindowText: %+v\n", windowText)
 	fmt.Printf("isIconic: %+v\n", isWindowIconic)
-	fmt.Printf("isWindowsVisible: %+v\n", isWindowsVisible)
+	fmt.Printf("IsWindowVisible: %+v\n", isWindowsVisible)
 	fmt.Printf("GetWindowRect: %+v\n", windowRect)
 	fmt.Printf("DWMWA_EXTENDED_FRAME_BOUNDS: %+v\n\n", frame)
 

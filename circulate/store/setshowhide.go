@@ -1,20 +1,23 @@
 package store
 
-import "sync"
+import (
+	"circulate/circulate/ty"
+	"sync"
+)
 
 type showHide struct {
 	sync.RWMutex
-	selected uintptr
+	selected ty.HWND
 }
 
 var setShowHide = &showHide{}
 
-func SetSetHideShow(hwnd uintptr) {
+func SetSetHideShow(hwnd ty.HWND) {
 	setShowHide.Lock()
 	setShowHide.selected = hwnd
 	setShowHide.Unlock()
 }
-func GetSetHideShow() uintptr {
+func GetSetHideShow() ty.HWND {
 	setShowHide.RLock()
 	defer setShowHide.RUnlock()
 	return setShowHide.selected

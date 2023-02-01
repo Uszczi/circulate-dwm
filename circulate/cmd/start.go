@@ -24,12 +24,12 @@ var startCommand = &cobra.Command{
 func start() {
 	fmt.Println("Start circulate")
 
-	wg.Add(2)
+	wg.Add(1)
 
 	fmt.Println("Start Tcp Server")
 	go core.RunTcpServer()
 	fmt.Println("Start Windows Server")
-	go core.RunWindowsServer()
+	// go core.RunWindowsServer()
 
 	wg.Wait()
 }

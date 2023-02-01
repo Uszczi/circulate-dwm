@@ -39,12 +39,6 @@ func isElibible(h syscall.Handle) bool {
 	className, _ := jw32.GetClassName(jw32.HWND(h))
 	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
 
-	// w32.SetForegroundWindow()
-	if h == 525892 {
-		w32.SetForegroundWindow(uintptr(h))
-		log.Println("SETTTINGGGG")
-	}
-
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||
@@ -67,6 +61,8 @@ func isElibible(h syscall.Handle) bool {
 	log.Println("isWindowEnabled: ", isWindowEnabled)
 	log.Println("className: ", className)
 	log.Println("isWindowIconic: ", isWindowIconic)
+	log.Println("getActivewindows: ", jw32.GetActiveWindow())
+	log.Println("GetForegroundWindow: ", jw32.GetForegroundWindow())
 
 	return true
 
