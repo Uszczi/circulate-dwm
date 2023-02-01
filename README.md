@@ -6,7 +6,8 @@
 </a>
 
 ### TODO
-[ ] Move all things related to Windows API to seperate file  \
+
+[ ] Move all things related to Windows API to seperate file \
 [ ] Add sending commands via TCP \
 [ ] How to exclude PowerToys search window? \
 [ ] Investigate issue with invisible borders \
@@ -17,5 +18,3 @@
 [ ] Add invisible border \
 [ ] Add visible border \
 [ ] Resize windows
-
-

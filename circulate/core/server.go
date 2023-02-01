@@ -48,16 +48,9 @@ const (
 )
 
 func ActiveWinEventHook(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
-    if !isElibible(syscall.Handle(hwnd)) {
-        return 0
-    }
-
-    if !jw32.IsWindowVisible(jw32.HWND(hwnd)) {
-        return 0
-    }
-    // if idObject != 0 {
-    //     return 0
-    // }
+	if !isElibible(syscall.Handle(hwnd)) {
+		return 0
+	}
 
 	log.Print("\n\n\n")
 	log.Println("event:", event)
@@ -96,10 +89,9 @@ func ActiveWinEventHook(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, id
 
 	fmt.Printf("IsWindowVisible: %#v\n", jw32.IsWindowVisible(jw32.HWND(hwnd)))
 
-
-    windows := GetWindows()
-    positions := layouts.CalculateColumns(windows)
-    SetWindows(windows, positions)
+	windows := GetWindows()
+	positions := layouts.CalculateColumns(windows)
+	SetWindows(windows, positions)
 
 	return 0
 
