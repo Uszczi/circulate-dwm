@@ -13,11 +13,11 @@ func init() {
 }
 
 var setLayout = &cobra.Command{
-	Use:   "set-layout",
+	Use: "set-layout",
 }
 
 var rows = &cobra.Command{
-	Use:   "rows",
+	Use: "rows",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		usecase.SetRowLayout()
@@ -25,9 +25,9 @@ var rows = &cobra.Command{
 }
 
 var columns = &cobra.Command{
-	Use:   "columns",
+	Use: "columns",
 
 	Run: func(cmd *cobra.Command, args []string) {
-        usecase.SetColumnLayout()
+		usecase.SetColumnLayout()
 	},
 }

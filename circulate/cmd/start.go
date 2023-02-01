@@ -26,7 +26,9 @@ func start() {
 
 	wg.Add(2)
 
+	fmt.Println("Start Tcp Server")
 	go core.RunTcpServer()
+	fmt.Println("Start Windows Server")
 	go core.RunWindowsServer()
 
 	wg.Wait()

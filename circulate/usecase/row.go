@@ -1,16 +1,15 @@
 package usecase
 
 import (
-    "circulate/circulate/layouts"
-    "circulate/circulate/core"
-
+	"circulate/circulate/core"
+	"circulate/circulate/layouts"
 )
 
 func SetRowLayout() {
-    windows := core.GetWindows()
-    positions := layouts.CalculateRows(windows)
-    for _, h := range windows {
-        core.PrintDebugWindow(h)
-    }
-    core.SetWindows(windows, positions)
+	windows := core.GetWindows()
+	positions := layouts.CalculateRows(windows)
+	for _, h := range windows {
+		core.PrintDebugWindow(h)
+	}
+	core.SetWindows(windows, positions)
 }

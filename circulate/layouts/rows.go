@@ -47,7 +47,6 @@
 // 	return result
 // }
 
-
 package layouts
 
 import (
@@ -55,9 +54,8 @@ import (
 	"github.com/tadvi/winc/w32"
 )
 
-
-func CalculateRows(windows []uintptr ) []RECT {
-    amount := int32(len(windows))
+func CalculateRows(windows []uintptr) []RECT {
+	amount := int32(len(windows))
 	result := []RECT{}
 
 	monitor_width := int32(w32.GetSystemMetrics(0))

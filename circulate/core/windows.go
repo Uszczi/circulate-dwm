@@ -15,9 +15,8 @@ var (
 	enumWindows = user32.NewProc("EnumWindows")
 )
 
-
 func getWindows() []uintptr {
-    container := []uintptr{}
+	container := []uintptr{}
 
 	cb := syscall.NewCallback(func(h syscall.Handle, p uintptr) uintptr {
 		if !isElibible(h) {
@@ -29,9 +28,8 @@ func getWindows() []uintptr {
 	})
 
 	_, _, _ = enumWindows.Call(cb, 0)
-    return container
+	return container
 }
-
 
 func isElibible(h syscall.Handle) bool {
 	isWindowVisible := w32.IsWindowVisible(uintptr(h))
@@ -41,21 +39,16 @@ func isElibible(h syscall.Handle) bool {
 	className, _ := jw32.GetClassName(jw32.HWND(h))
 	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
 
-
-    // w32.SetForegroundWindow()
-    if h == 525892 {
-        w32.SetForegroundWindow(uintptr(h))
-        log.Println("SETTTINGGGG")
-    }
-
-
-
-
+	// w32.SetForegroundWindow()
+	if h == 525892 {
+		w32.SetForegroundWindow(uintptr(h))
+		log.Println("SETTTINGGGG")
+	}
 
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||
-        isWindowIconic == 1 ||
+		isWindowIconic == 1 ||
 		className == "Windows.UI.Core.CoreWindow" ||
 		windowText == "" ||
 		windowText == "Program Manager" ||
@@ -66,31 +59,29 @@ func isElibible(h syscall.Handle) bool {
 		return false
 	}
 
-    log.Printf("\n\n")
-    log.Println("windowText: ", windowText)
-    log.Println("HWND: ", h)
-    log.Println("isWindowVisible: ", isWindowVisible)
-    log.Println("isWindow: ", isWindow)
-    log.Println("isWindowEnabled: ", isWindowEnabled)
-    log.Println("className: ", className)
-    log.Println("isWindowIconic: ", isWindowIconic)
-
+	log.Printf("\n\n")
+	log.Println("windowText: ", windowText)
+	log.Println("HWND: ", h)
+	log.Println("isWindowVisible: ", isWindowVisible)
+	log.Println("isWindow: ", isWindow)
+	log.Println("isWindowEnabled: ", isWindowEnabled)
+	log.Println("className: ", className)
+	log.Println("isWindowIconic: ", isWindowIconic)
 
 	return true
 
 }
 
-func GetWindows() []uintptr  {
-    return getWindows()
+func GetWindows() []uintptr {
+	return getWindows()
 
 }
 
-func SetWindows(windows []uintptr, rects []layouts.RECT)  {
-    for i, hwnd := range windows {
-        rect := rects[i]
+func SetWindows(windows []uintptr, rects []layouts.RECT) {
+	for i, hwnd := range windows {
+		rect := rects[i]
 
-		jw32.SetWindowPos(jw32.HWND(hwnd), jw32.HWND_NOTOPMOST, int(rect.Left), int(rect.Top), int(rect.Right ), int(rect.Bottom ), jw32.SWP_NOACTIVATE|0x0020)
-    }
-
+		jw32.SetWindowPos(jw32.HWND(hwnd), jw32.HWND_NOTOPMOST, int(rect.Left), int(rect.Top), int(rect.Right), int(rect.Bottom), jw32.SWP_NOACTIVATE|0x0020)
+	}
 
 }

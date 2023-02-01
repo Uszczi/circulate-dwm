@@ -8,7 +8,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "circulate",
+	Use: "circulate",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Do Stuff Here
 	},

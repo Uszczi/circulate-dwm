@@ -9,9 +9,8 @@ type RECT struct {
 	Left, Top, Right, Bottom int32
 }
 
-
-func CalculateColumns(windows []uintptr ) []RECT {
-    amount := int32(len(windows))
+func CalculateColumns(windows []uintptr) []RECT {
+	amount := int32(len(windows))
 	result := []RECT{}
 
 	monitor_width := int32(w32.GetSystemMetrics(0))
@@ -36,7 +35,7 @@ func CalculateColumns(windows []uintptr ) []RECT {
 		if ok {
 			w_left := windowRect.Left - frame.Left + left
 			w_top := windowRect.Top - frame.Top + top
-			w_right := 2*(windowRect.Right - frame.Right) + width
+			w_right := 2*(windowRect.Right-frame.Right) + width
 			w_bottom := windowRect.Bottom - frame.Bottom + bottom
 
 			result = append(result, RECT{Left: w_left, Top: w_top, Right: w_right, Bottom: w_bottom})
