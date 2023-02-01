@@ -1,4 +1,4 @@
-package tcp
+package core
 
 import (
 	"bytes"
@@ -10,6 +10,43 @@ import (
 	"time"
 )
 
+type Message struct {
+	ID   string
+	Data string
+}
+
+func send(conn net.Conn) {
+	msg := Message{ID: "Yo", Data: "Hello"}
+	bin_buf := new(bytes.Buffer)
+
+	gobobj := gob.NewEncoder(bin_buf)
+	_ = gobobj.Encode(msg)
+
+	_, _ = conn.Write(bin_buf.Bytes())
+}
+
+func recv(conn net.Conn) {
+	tmp := make([]byte, 500)
+	_, _ = conn.Read(tmp)
+
+	tmpbuff := bytes.NewBuffer(tmp)
+	tmpstruct := new(Message)
+
+	gobobjdec := gob.NewDecoder(tmpbuff)
+	_ = gobobjdec.Decode(tmpstruct)
+
+	fmt.Println(tmpstruct)
+}
+
+func SendCommand() {
+	// TODO make ip passable
+	conn, _ := net.Dial("tcp", "127.0.0.1:8018")
+
+	send(conn)
+	recv(conn)
+}
+
+// TODO there has to be my own logger
 func logerr(err error) bool {
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
@@ -36,7 +73,7 @@ func read(conn net.Conn) {
 		tmpstruct := new(Message)
 
 		gobobj := gob.NewDecoder(tmpbuff)
-		_ =gobobj.Decode(tmpstruct)
+		_ = gobobj.Decode(tmpstruct)
 
 		fmt.Println(tmpstruct)
 		return
@@ -67,7 +104,7 @@ func handle(conn net.Conn) {
 }
 
 func Run() {
-	server, _ := net.Listen("tcp", "localhost:8081")
+	server, _ := net.Listen("tcp", "localhost:8018")
 	for {
 		conn, err := server.Accept()
 		if err != nil {

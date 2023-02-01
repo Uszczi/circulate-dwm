@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/circulate/tcp"
+	"circulate/circulate/core"
 
 	"github.com/spf13/cobra"
 )
@@ -11,8 +11,8 @@ func init() {
 }
 
 var send = &cobra.Command{
-	Use:   "ping",
+	Use: "ping",
 	Run: func(cmd *cobra.Command, args []string) {
-        tcp.SendCommand()
+		core.SendCommand()
 	},
 }

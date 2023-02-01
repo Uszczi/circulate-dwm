@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"circulate/circulate/core"
-	"circulate/circulate/tcp"
 	"fmt"
 	"sync"
 
@@ -16,22 +15,19 @@ func init() {
 }
 
 var startCommand = &cobra.Command{
-	Use:   "start",
+	Use: "start",
 	Run: func(cmd *cobra.Command, args []string) {
 		start()
 	},
 }
 
-func start(){
-    fmt.Println("Start circulate")
+func start() {
+	fmt.Println("Start circulate")
 
 	wg.Add(2)
 
-    go tcp.Run()
-    go core.Main()
+	go core.Run()
+	go core.Main()
 
-    wg.Wait()
+	wg.Wait()
 }
-
-
-
