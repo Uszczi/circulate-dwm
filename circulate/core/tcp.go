@@ -15,8 +15,8 @@ type Message struct {
 	Data string
 }
 
-func send(conn net.Conn) {
-	msg := Message{ID: "Yo", Data: "Hello"}
+func send(conn net.Conn, message string) {
+	msg := Message{ID: "Yo", Data: message}
 	bin_buf := new(bytes.Buffer)
 
 	gobobj := gob.NewEncoder(bin_buf)
@@ -38,11 +38,17 @@ func recv(conn net.Conn) {
 	fmt.Println(tmpstruct)
 }
 
-func SendCommand() {
+func SendCommand(message ...string) {
 	// TODO make ip passable
+	var msg string
+	if len(message) > 0 {
+		msg = message[0]
+	} else {
+		msg = "default"
+	}
 	conn, _ := net.Dial("tcp", "127.0.0.1:8018")
 
-	send(conn)
+	send(conn, msg)
 	recv(conn)
 }
 
