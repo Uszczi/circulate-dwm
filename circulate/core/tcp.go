@@ -87,6 +87,16 @@ func read(conn net.Conn) {
 		store.SetActiveLayout(tmpstruct.Data)
 		if tmpstruct.Data == "toogle" {
 			UseSetHowHide()
+		} else if tmpstruct.Data == "switch-to-workspace 1" {
+			fmt.Println("ssssswitch-to-workspace 1")
+		} else if tmpstruct.Data == "switch-to-workspace 2" {
+			fmt.Println("ssssswitch-to-workspace 2")
+		} else if tmpstruct.Data == "move-to-workspace 1" {
+			fmt.Println("ssssmove-to-workspace 1")
+		} else if tmpstruct.Data == "move-to-workspace 2" {
+			fmt.Println("ssssmove-to-workspace 2")
+		} else if tmpstruct.Data == "debug-workspace" {
+			fmt.Println("ssssdebug-workspace")
 		}
 		return
 	}
@@ -104,9 +114,7 @@ func resp(conn net.Conn) {
 }
 
 func handle(conn net.Conn) {
-	timeoutDuration := 2 * time.Second
-	fmt.Println("Launching server...")
-	_ = conn.SetReadDeadline(time.Now().Add(timeoutDuration))
+	_ = conn.SetReadDeadline(time.Now().Add(time.Second))
 
 	remoteAddr := conn.RemoteAddr().String()
 	fmt.Println("Client connected from " + remoteAddr)
