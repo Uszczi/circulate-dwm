@@ -88,15 +88,31 @@ func read(conn net.Conn) {
 		if tmpstruct.Data == "toogle" {
 			UseSetHowHide()
 		} else if tmpstruct.Data == "switch-to-workspace 1" {
-			fmt.Println("ssssswitch-to-workspace 1")
+			store.SwitchToLayout(0)
 		} else if tmpstruct.Data == "switch-to-workspace 2" {
-			fmt.Println("ssssswitch-to-workspace 2")
+			store.SwitchToLayout(1)
+		} else if tmpstruct.Data == "switch-to-workspace 3" {
+			store.SwitchToLayout(2)
+		} else if tmpstruct.Data == "switch-to-workspace 4" {
+			store.SwitchToLayout(3)
+		} else if tmpstruct.Data == "switch-to-workspace 5" {
+			store.SwitchToLayout(4)
+		} else if tmpstruct.Data == "switch-to-workspace 6" {
+			store.SwitchToLayout(5)
 		} else if tmpstruct.Data == "move-to-workspace 1" {
-			fmt.Println("ssssmove-to-workspace 1")
+			MoveToWorkspace(0)
 		} else if tmpstruct.Data == "move-to-workspace 2" {
-			fmt.Println("ssssmove-to-workspace 2")
+			MoveToWorkspace(1)
+		} else if tmpstruct.Data == "move-to-workspace 3" {
+			MoveToWorkspace(2)
+		} else if tmpstruct.Data == "move-to-workspace 4" {
+			MoveToWorkspace(3)
+		} else if tmpstruct.Data == "move-to-workspace 5" {
+			MoveToWorkspace(4)
+		} else if tmpstruct.Data == "move-to-workspace 6" {
+			MoveToWorkspace(5)
 		} else if tmpstruct.Data == "debug-workspace" {
-			fmt.Println("ssssdebug-workspace")
+			PrintWorkspaceDebug()
 		}
 		return
 	}

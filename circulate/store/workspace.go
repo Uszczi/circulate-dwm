@@ -7,21 +7,37 @@ import (
 	"sync"
 )
 
-type workspace struct {
+type workspacesStore struct {
 	sync.RWMutex
-	windows []ty.HWND
+	workspaces       []*workspaceStore
+	active_workspace int
 }
 
-var workspaces = []*workspace{&workspace{}, &workspace{}}
+type workspaceStore struct {
+	w []ty.HWND
+}
 
-func PrintDebugWorkspace(hwnd ty.HWND) {
-	for _, workspace := range workspaces {
-		fmt.Println(workspace.windows)
+var workspaces = &workspacesStore{active_workspace: 0, workspaces: []*workspaceStore{
+	&workspaceStore{}, &workspaceStore{}, &workspaceStore{}, &workspaceStore{}, &workspaceStore{}, &workspaceStore{}}}
+
+func PrintDebugWorkspace() {
+	for _, workspace := range workspaces.workspaces {
+		fmt.Println(workspace.w)
 	}
 	return
 }
-func MoveToWorkspace(index int) {
-	foregroundWindow := win.GetForegroundWindow()
+func MoveToWorkspace(hwnd ty.HWND, workspaceName int) {
+	fmt.Println("Move to worksapce storee")
+	workspaces.workspaces[workspaceName].w = append(workspaces.workspaces[workspaceName].w, hwnd)
+}
 
-	workspaces[index].windows = append(workspaces[index].windows, foregroundWindow)
+func SwitchToLayout(workspaceName int) {
+	for _, workspace := range workspaces.workspaces {
+		for _, hwnd := range workspace.w {
+			win.ShowWindow(hwnd, 6)
+		}
+	}
+	for _, hwnd := range workspaces.workspaces[workspaceName].w {
+		win.ShowWindow(hwnd, 1)
+	}
 }

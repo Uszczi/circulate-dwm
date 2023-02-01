@@ -2,6 +2,7 @@ package win
 
 import (
 	"circulate/circulate/ty"
+
 	jw32 "github.com/jcollie/w32"
 	_ "github.com/tadvi/winc/w32"
 	"golang.org/x/sys/windows"
@@ -28,4 +29,9 @@ func IsWindowVisible(hwnd ty.HWND) bool {
 func IsWindowIconic(hwnd ty.HWND) uintptr {
 	isIconic, _, _ := isIconic.Call(uintptr(hwnd))
 	return isIconic
+}
+
+func ShowWindow(hwnd ty.HWND, cmdshow int) bool {
+	result := jw32.ShowWindow(jw32.HWND(hwnd), cmdshow)
+	return result
 }
