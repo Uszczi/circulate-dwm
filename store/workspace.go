@@ -18,8 +18,9 @@ type workspaceStore struct {
 	layout string
 }
 
-var workspaces = &workspacesStore{active_workspace: 0, workspaces: []*workspaceStore{
-	&workspaceStore{}, &workspaceStore{}, &workspaceStore{}, &workspaceStore{}, &workspaceStore{}, &workspaceStore{}}}
+var workspaces = &workspacesStore{active_workspace: 1, workspaces: []*workspaceStore{
+	{}, {}, {}, {}, {}, {},
+}}
 
 func PrintDebugWorkspace() {
 	for _, workspace := range workspaces.workspaces {
@@ -27,6 +28,7 @@ func PrintDebugWorkspace() {
 	}
 	return
 }
+
 func MoveToWorkspace(hwnd ty.HWND, workspaceName int) {
 	fmt.Println("Move to worksapce storee")
 	workspaces.workspaces[workspaceName].W = append(workspaces.workspaces[workspaceName].W, hwnd)
