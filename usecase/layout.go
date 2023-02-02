@@ -9,15 +9,15 @@ import (
 func SetColumnLayout() {
 	workspace := store.GetActiveWorkspace()
 
-	positions := layouts.CalculateColumns(workspace.W)
-	core.SetWindows(workspace.W, positions)
+	positions := layouts.CalculateColumns(workspace.Windows)
+	core.SetWindows(workspace.Windows, positions)
 }
 
 func SetRowLayout() {
 	workspace := store.GetActiveWorkspace()
 
-	positions := layouts.CalculateRows(workspace.W)
-	core.SetWindows(workspace.W, positions)
+	positions := layouts.CalculateRows(workspace.Windows)
+	core.SetWindows(workspace.Windows, positions)
 }
 
 func SetPreviousLayout() {
