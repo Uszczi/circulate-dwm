@@ -10,7 +10,10 @@ import (
 	"io"
 	"log"
 	"net"
+	"strings"
 	"time"
+
+	"strconv"
 )
 
 type Message struct {
@@ -90,43 +93,32 @@ func read(conn net.Conn) {
 		fmt.Println("Prevous active layout", store.GetActiveLayout())
 		store.SetActiveLayout(tmpstruct.Data)
 
-		if tmpstruct.Data == "toogle" {
+		args := strings.Split(tmpstruct.Data, " ")
+
+		switch args[0] {
+		case "toogle":
 			core.UseSetHowHide()
-		} else if tmpstruct.Data == "switch-to-workspace 1" {
-			store.SwitchToLayout(0)
-		} else if tmpstruct.Data == "switch-to-workspace 2" {
-			store.SwitchToLayout(1)
-		} else if tmpstruct.Data == "switch-to-workspace 3" {
-			store.SwitchToLayout(2)
-		} else if tmpstruct.Data == "switch-to-workspace 4" {
-			store.SwitchToLayout(3)
-		} else if tmpstruct.Data == "switch-to-workspace 5" {
-			store.SwitchToLayout(4)
-		} else if tmpstruct.Data == "switch-to-workspace 6" {
-			store.SwitchToLayout(5)
-		} else if tmpstruct.Data == "move-to-workspace 1" {
-			core.MoveToWorkspace(0)
-		} else if tmpstruct.Data == "move-to-workspace 2" {
-			core.MoveToWorkspace(1)
-		} else if tmpstruct.Data == "move-to-workspace 3" {
-			core.MoveToWorkspace(2)
-		} else if tmpstruct.Data == "move-to-workspace 4" {
-			core.MoveToWorkspace(3)
-		} else if tmpstruct.Data == "move-to-workspace 5" {
-			core.MoveToWorkspace(4)
-		} else if tmpstruct.Data == "move-to-workspace 6" {
-			core.MoveToWorkspace(5)
-		} else if tmpstruct.Data == "debug-workspace" {
+		case "debug-workspace":
 			core.PrintWorkspaceDebug()
-		} else if tmpstruct.Data == "set-layout rows" {
-			usecase.SetRowLayout()
-		} else if tmpstruct.Data == "set-layout columns" {
-			usecase.SetColumnLayout()
-		} else if tmpstruct.Data == "set-layout previous" {
-			usecase.SetPreviousLayout()
-		} else if tmpstruct.Data == "set-layout next" {
-			usecase.SetNextLayout()
+		case "switch-to-workspace":
+			workspace, _ := strconv.Atoi(args[1])
+			store.SwitchToLayout(workspace - 1)
+		case "move-to-workspace":
+			workspace, _ := strconv.Atoi(args[1])
+			core.MoveToWorkspace(workspace - 1)
+		case "set-layout":
+			switch args[1] {
+			case "rows":
+				usecase.SetRowLayout()
+			case "columns":
+				usecase.SetColumnLayout()
+			case "next":
+				usecase.SetNextLayout()
+			case "previous":
+				usecase.SetPreviousLayout()
+			}
 		}
+
 		return
 	}
 }

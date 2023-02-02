@@ -34,6 +34,8 @@ func MoveToWorkspace(hwnd ty.HWND, workspaceName int) {
 }
 
 func SwitchToLayout(workspaceName int) {
+	w.active_workspace = workspaceName
+
 	for _, workspace := range w.workspaces {
 		for _, hwnd := range workspace.Windows {
 			win.ShowWindow(hwnd, 6)
