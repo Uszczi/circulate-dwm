@@ -3,40 +3,27 @@ package usecase
 import (
 	"circulate/core"
 	"circulate/layouts"
+	"circulate/store"
 )
 
 func SetColumnLayout() {
-	windows := core.GetWindows()
-	positions := layouts.CalculateColumns(windows)
-	for _, h := range windows {
-		core.PrintDebugWindow(h)
-	}
-	core.SetWindows(windows, positions)
+	workspace := store.GetActiveWorkspace()
+
+	positions := layouts.CalculateColumns(workspace.W)
+	core.SetWindows(workspace.W, positions)
 }
 
 func SetRowLayout() {
-	windows := core.GetWindows()
-	positions := layouts.CalculateRows(windows)
-	for _, h := range windows {
-		core.PrintDebugWindow(h)
-	}
-	core.SetWindows(windows, positions)
+	workspace := store.GetActiveWorkspace()
+
+	positions := layouts.CalculateRows(workspace.W)
+	core.SetWindows(workspace.W, positions)
 }
 
 func SetPreviousLayout() {
-	windows := core.GetWindows()
-	positions := layouts.CalculateRows(windows)
-	for _, h := range windows {
-		core.PrintDebugWindow(h)
-	}
-	core.SetWindows(windows, positions)
+	return
 }
 
 func SetNextLayout() {
-	windows := core.GetWindows()
-	positions := layouts.CalculateRows(windows)
-	for _, h := range windows {
-		core.PrintDebugWindow(h)
-	}
-	core.SetWindows(windows, positions)
+	return
 }

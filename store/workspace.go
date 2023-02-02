@@ -14,7 +14,8 @@ type workspacesStore struct {
 }
 
 type workspaceStore struct {
-	w []ty.HWND
+	W      []ty.HWND
+	layout string
 }
 
 var workspaces = &workspacesStore{active_workspace: 0, workspaces: []*workspaceStore{
@@ -22,22 +23,26 @@ var workspaces = &workspacesStore{active_workspace: 0, workspaces: []*workspaceS
 
 func PrintDebugWorkspace() {
 	for _, workspace := range workspaces.workspaces {
-		fmt.Println(workspace.w)
+		fmt.Println(workspace.W)
 	}
 	return
 }
 func MoveToWorkspace(hwnd ty.HWND, workspaceName int) {
 	fmt.Println("Move to worksapce storee")
-	workspaces.workspaces[workspaceName].w = append(workspaces.workspaces[workspaceName].w, hwnd)
+	workspaces.workspaces[workspaceName].W = append(workspaces.workspaces[workspaceName].W, hwnd)
 }
 
 func SwitchToLayout(workspaceName int) {
 	for _, workspace := range workspaces.workspaces {
-		for _, hwnd := range workspace.w {
+		for _, hwnd := range workspace.W {
 			win.ShowWindow(hwnd, 6)
 		}
 	}
-	for _, hwnd := range workspaces.workspaces[workspaceName].w {
+	for _, hwnd := range workspaces.workspaces[workspaceName].W {
 		win.ShowWindow(hwnd, 1)
 	}
+}
+
+func GetActiveWorkspace() *workspaceStore {
+	return workspaces.workspaces[workspaces.active_workspace]
 }

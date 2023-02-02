@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/core"
+	"circulate/tcp"
 	"fmt"
 	"sync"
 
@@ -27,7 +27,7 @@ func start() {
 	wg.Add(1)
 
 	fmt.Println("Start Tcp Server")
-	go core.RunTcpServer()
+	go tcp.RunTcpServer()
 	fmt.Println("Start Windows Server")
 	// go core.RunWindowsServer()
 

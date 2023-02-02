@@ -1,7 +1,6 @@
 package core
 
 import (
-	"circulate/layouts"
 	"fmt"
 	"log"
 	"syscall"
@@ -89,9 +88,9 @@ func ActiveWinEventHook(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, id
 
 	fmt.Printf("IsWindowVisible: %#v\n", jw32.IsWindowVisible(jw32.HWND(hwnd)))
 
-	windows := GetWindows()
-	positions := layouts.CalculateColumns(windows)
-	SetWindows(windows, positions)
+	// windows := GetWindows()
+	// positions := layouts.CalculateColumns(windows)
+	// SetWindows(windows, positions)
 
 	return 0
 

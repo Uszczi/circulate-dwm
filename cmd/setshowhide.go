@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/core"
+	"circulate/tcp"
 
 	"github.com/spf13/cobra"
 )
@@ -13,6 +13,6 @@ func init() {
 var setShowHide = &cobra.Command{
 	Use: "toogle",
 	Run: func(cmd *cobra.Command, args []string) {
-		core.SendCommand("toogle")
+		tcp.SendCommand("toogle")
 	},
 }

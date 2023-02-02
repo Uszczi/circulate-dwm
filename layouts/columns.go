@@ -1,6 +1,8 @@
 package layouts
 
 import (
+	"circulate/ty"
+
 	jw32 "github.com/jcollie/w32"
 	"github.com/tadvi/winc/w32"
 )
@@ -9,7 +11,7 @@ type RECT struct {
 	Left, Top, Right, Bottom int32
 }
 
-func CalculateColumns(windows []uintptr) []RECT {
+func CalculateColumns(windows []ty.HWND) []RECT {
 	amount := int32(len(windows))
 	result := []RECT{}
 

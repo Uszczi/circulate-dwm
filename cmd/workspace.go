@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/core"
+	"circulate/tcp"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -23,7 +23,7 @@ var switchToWorkspace = &cobra.Command{
 		workspace := args[0]
 
 		fmt.Println("switch-to-workspace" + " " + workspace)
-		core.SendCommand("switch-to-workspace" + " " + workspace)
+		tcp.SendCommand("switch-to-workspace" + " " + workspace)
 	},
 }
 
@@ -36,7 +36,7 @@ var moveToLayout = &cobra.Command{
 			return
 		}
 		workspace := args[0]
-		core.SendCommand("move-to-workspace" + " " + workspace)
+		tcp.SendCommand("move-to-workspace" + " " + workspace)
 	},
 }
 
@@ -44,6 +44,6 @@ var debugWorkspace = &cobra.Command{
 	Use: "debug-workspace",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.SendCommand("debug-workspace")
+		tcp.SendCommand("debug-workspace")
 	},
 }

@@ -1,7 +1,8 @@
-package core
+package tcp
 
 import (
 	"bytes"
+	"circulate/core"
 	"circulate/store"
 	"circulate/usecase"
 	"encoding/gob"
@@ -90,7 +91,7 @@ func read(conn net.Conn) {
 		store.SetActiveLayout(tmpstruct.Data)
 
 		if tmpstruct.Data == "toogle" {
-			UseSetHowHide()
+			core.UseSetHowHide()
 		} else if tmpstruct.Data == "switch-to-workspace 1" {
 			store.SwitchToLayout(0)
 		} else if tmpstruct.Data == "switch-to-workspace 2" {
@@ -104,19 +105,19 @@ func read(conn net.Conn) {
 		} else if tmpstruct.Data == "switch-to-workspace 6" {
 			store.SwitchToLayout(5)
 		} else if tmpstruct.Data == "move-to-workspace 1" {
-			MoveToWorkspace(0)
+			core.MoveToWorkspace(0)
 		} else if tmpstruct.Data == "move-to-workspace 2" {
-			MoveToWorkspace(1)
+			core.MoveToWorkspace(1)
 		} else if tmpstruct.Data == "move-to-workspace 3" {
-			MoveToWorkspace(2)
+			core.MoveToWorkspace(2)
 		} else if tmpstruct.Data == "move-to-workspace 4" {
-			MoveToWorkspace(3)
+			core.MoveToWorkspace(3)
 		} else if tmpstruct.Data == "move-to-workspace 5" {
-			MoveToWorkspace(4)
+			core.MoveToWorkspace(4)
 		} else if tmpstruct.Data == "move-to-workspace 6" {
-			MoveToWorkspace(5)
+			core.MoveToWorkspace(5)
 		} else if tmpstruct.Data == "debug-workspace" {
-			PrintWorkspaceDebug()
+			core.PrintWorkspaceDebug()
 		} else if tmpstruct.Data == "set-layout rows" {
 			usecase.SetRowLayout()
 		} else if tmpstruct.Data == "set-layout columns" {

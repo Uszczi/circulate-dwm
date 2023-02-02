@@ -2,6 +2,7 @@ package core
 
 import (
 	"circulate/layouts"
+	"circulate/ty"
 	"log"
 	"syscall"
 
@@ -73,7 +74,7 @@ func GetWindows() []uintptr {
 
 }
 
-func SetWindows(windows []uintptr, rects []layouts.RECT) {
+func SetWindows(windows []ty.HWND, rects []layouts.RECT) {
 	for i, hwnd := range windows {
 		rect := rects[i]
 

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/core"
+	"circulate/tcp"
 
 	"github.com/spf13/cobra"
 )
@@ -23,7 +23,7 @@ var rows = &cobra.Command{
 	Use: "rows",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.SendCommand("set-layout rows")
+		tcp.SendCommand("set-layout rows")
 	},
 }
 
@@ -31,7 +31,7 @@ var columns = &cobra.Command{
 	Use: "columns",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.SendCommand("set-layout columns")
+		tcp.SendCommand("set-layout columns")
 	},
 }
 
@@ -39,7 +39,7 @@ var previous = &cobra.Command{
 	Use: "previous",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.SendCommand("set-layout previous")
+		tcp.SendCommand("set-layout previous")
 	},
 }
 
@@ -47,6 +47,6 @@ var next = &cobra.Command{
 	Use: "next",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		core.SendCommand("set-layout next")
+		tcp.SendCommand("set-layout next")
 	},
 }
