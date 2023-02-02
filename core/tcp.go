@@ -40,6 +40,8 @@ func recv(conn net.Conn) {
 }
 
 func SendCommand(message ...string) {
+	log.Println("tcp.SendCommand message=", message)
+
 	// TODO make ip passable
 	var msg string
 	if len(message) > 0 {

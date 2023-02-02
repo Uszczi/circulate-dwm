@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"circulate/core"
-	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -11,20 +10,20 @@ func init() {
 	rootCmd.AddCommand(setLayout)
 	setLayout.AddCommand(rows)
 	setLayout.AddCommand(columns)
+	setLayout.AddCommand(previous)
+	setLayout.AddCommand(next)
 }
 
 var setLayout = &cobra.Command{
 	Use:       "set-layout",
-	ValidArgs: []string{"rows", "columns"},
+	ValidArgs: []string{"rows", "columns", "next", "previous"},
 }
 
 var rows = &cobra.Command{
 	Use: "rows",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run rows")
-		core.SendCommand("rows")
-		// usecase.SetRowLayout()
+		core.SendCommand("set-layout rows")
 	},
 }
 
@@ -32,8 +31,22 @@ var columns = &cobra.Command{
 	Use: "columns",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run columns")
-		core.SendCommand("columns")
-		// usecase.SetColumnLayout()
+		core.SendCommand("set-layout columns")
+	},
+}
+
+var previous = &cobra.Command{
+	Use: "previous",
+
+	Run: func(cmd *cobra.Command, args []string) {
+		core.SendCommand("set-layout previous")
+	},
+}
+
+var next = &cobra.Command{
+	Use: "next",
+
+	Run: func(cmd *cobra.Command, args []string) {
+		core.SendCommand("set-layout next")
 	},
 }
