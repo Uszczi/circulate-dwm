@@ -3,6 +3,7 @@ package core
 import (
 	"bytes"
 	"circulate/store"
+	"circulate/usecase"
 	"encoding/gob"
 	"fmt"
 	"io"
@@ -87,6 +88,7 @@ func read(conn net.Conn) {
 		fmt.Println(tmpstruct)
 		fmt.Println("Prevous active layout", store.GetActiveLayout())
 		store.SetActiveLayout(tmpstruct.Data)
+
 		if tmpstruct.Data == "toogle" {
 			UseSetHowHide()
 		} else if tmpstruct.Data == "switch-to-workspace 1" {
@@ -115,6 +117,14 @@ func read(conn net.Conn) {
 			MoveToWorkspace(5)
 		} else if tmpstruct.Data == "debug-workspace" {
 			PrintWorkspaceDebug()
+		} else if tmpstruct.Data == "set-layout rows" {
+			usecase.SetRowLayout()
+		} else if tmpstruct.Data == "set-layout columns" {
+			usecase.SetColumnLayout()
+		} else if tmpstruct.Data == "set-layout previous" {
+			usecase.SetPreviousLayout()
+		} else if tmpstruct.Data == "set-layout next" {
+			usecase.SetNextLayout()
 		}
 		return
 	}
