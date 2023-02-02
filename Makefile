@@ -1,6 +1,6 @@
 start:
-	go run .\main.go start
+	go run .\circulate.go start
 
 
 build:
-	go build .\main.go 
+	go build .\circulate.go 
