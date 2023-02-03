@@ -27,3 +27,7 @@ func SetPreviousLayout() {
 func SetNextLayout() {
 	return
 }
+
+func SwitchToLayout(workspaceName int) {
+	store.SwitchToLayout(workspaceName)
+}

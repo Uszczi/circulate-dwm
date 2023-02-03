@@ -2,8 +2,6 @@ package tcp
 
 import (
 	"bytes"
-	"circulate/core"
-	"circulate/store"
 	"circulate/usecase"
 	"encoding/gob"
 	"fmt"
@@ -88,8 +86,6 @@ func read(conn net.Conn) {
 		_ = gobobj.Decode(tmpstruct)
 
 		fmt.Println(tmpstruct)
-		fmt.Println("Prevous active layout", store.GetActiveLayout())
-		store.SetActiveLayout(tmpstruct.Data)
 
 		args := strings.Split(tmpstruct.Data, " ")
 
@@ -97,13 +93,13 @@ func read(conn net.Conn) {
 		case "toogle":
 			usecase.UseSetHowHide()
 		case "debug-workspace":
-			core.PrintWorkspaceDebug()
+			usecase.PrintWorkspaceDebug()
 		case "switch-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
-			store.SwitchToLayout(workspace - 1)
+			usecase.SwitchToLayout(workspace - 1)
 		case "move-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
-			core.MoveToWorkspace(workspace - 1)
+			usecase.MoveToWorkspace(workspace - 1)
 		case "set-layout":
 			switch args[1] {
 			case "rows":
