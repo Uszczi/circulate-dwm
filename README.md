@@ -7,8 +7,8 @@
 
 ### TODO
 
-[ ] Move all things related to Windows API to seperate file \
-[ ] Add sending commands via TCP \
+[ . ] Move all things related to Windows API to seperate file \
+[ x ] Add sending commands via TCP \
 [ ] How to exclude PowerToys search window? \
 [ ] Investigate issue with invisible borders \
 [ ] Switch between possible layouts \
@@ -17,4 +17,5 @@
 [ ] Switch focus to specific direction \
 [ ] Add invisible border \
 [ ] Add visible border \
-[ ] Resize windows
+[ ] Resize windows \
+[ ] Use gRPC instead of TCP
