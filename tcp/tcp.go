@@ -10,10 +10,9 @@ import (
 	"io"
 	"log"
 	"net"
+	"strconv"
 	"strings"
 	"time"
-
-	"strconv"
 )
 
 type Message struct {
@@ -45,9 +44,8 @@ func recv(conn net.Conn) {
 }
 
 func SendCommand(message ...string) {
-	log.Println("tcp.SendCommand message=", message)
+	log.Printf("tcp.SendCommand message=%v", message)
 
-	// TODO make ip passable
 	var msg string
 	if len(message) > 0 {
 		msg = message[0]
@@ -97,7 +95,7 @@ func read(conn net.Conn) {
 
 		switch args[0] {
 		case "toogle":
-			core.UseSetHowHide()
+			usecase.UseSetHowHide()
 		case "debug-workspace":
 			core.PrintWorkspaceDebug()
 		case "switch-to-workspace":
