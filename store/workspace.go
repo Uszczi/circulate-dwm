@@ -1,6 +1,7 @@
 package store
 
 import (
+	"circulate/layouts"
 	"circulate/ty"
 	"circulate/win"
 	"fmt"
@@ -15,7 +16,7 @@ type workspacesStore struct {
 
 type workspaceStore struct {
 	Windows []ty.HWND
-	layout  string
+	layout  layouts.Layout
 }
 
 var w = &workspacesStore{active_workspace: 1, workspaces: []*workspaceStore{
@@ -48,4 +49,8 @@ func SwitchToLayout(workspaceName int) {
 
 func GetActiveWorkspace() *workspaceStore {
 	return w.workspaces[w.active_workspace]
+}
+
+func SetActiveLayout(layout layouts.Layout) {
+	w.workspaces[w.active_workspace].layout = layout
 }

@@ -7,11 +7,21 @@ import (
 	"github.com/tadvi/winc/w32"
 )
 
-type RECT struct {
-	Left, Top, Right, Bottom int32
+type Layout interface {
+	Add(ty.HWND)
+	Calculate() []RECT
 }
 
-func CalculateColumns(windows []ty.HWND) []RECT {
+type ColumnLayout struct {
+	Windows []ty.HWND
+}
+
+func (*ColumnLayout) Add(ty.HWND) {
+	return
+}
+
+func (cl *ColumnLayout) Calculate() []RECT {
+	windows := cl.Windows
 	amount := int32(len(windows))
 	result := []RECT{}
 
@@ -49,4 +59,8 @@ func CalculateColumns(windows []ty.HWND) []RECT {
 	}
 
 	return result
+}
+
+type RECT struct {
+	Left, Top, Right, Bottom int32
 }

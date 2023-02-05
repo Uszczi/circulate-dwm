@@ -9,7 +9,10 @@ import (
 func SetColumnLayout() {
 	workspace := store.GetActiveWorkspace()
 
-	positions := layouts.CalculateColumns(workspace.Windows)
+	var layout layouts.Layout
+	layout = &layouts.ColumnLayout{Windows: workspace.Windows}
+
+	positions := layout.Calculate()
 	core.SetWindows(workspace.Windows, positions)
 }
 

@@ -1,7 +1,6 @@
 package core
 
 import (
-	"circulate/layouts"
 	"circulate/ty"
 	"fmt"
 	"log"
@@ -97,8 +96,8 @@ func ActiveWinEventHook(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, id
 		ww = append(ww, ty.HWND(v))
 	}
 
-	positions := layouts.CalculateColumns(ww)
-	SetWindows(ww, positions)
+	// positions := layouts.CalculateColumns(ww)
+	// SetWindows(ww, positions)
 
 	return 0
 
