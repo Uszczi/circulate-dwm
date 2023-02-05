@@ -6,23 +6,17 @@ import (
 )
 
 func PrintWorkspaceDebug() {
-	store.PrintDebugWorkspace()
+	store.GetContainer().PrintDebugWorkspace()
 }
 
-func MoveToWorkspace(workspace int) {
+func MoveToWorkspace(newWorkspace int) {
 	foregroundWindow := win.GetForegroundWindow()
-
-	store.MoveToWorkspace(foregroundWindow, workspace)
+	container := store.GetContainer()
+	container.MoveToWorkspace(foregroundWindow, newWorkspace)
+	container.Workspaces[container.ActiveWorkspace].UpdateLayout()
 }
 
-func ShowWorkspace(workspace int) {
-	foregroundWindow := win.GetForegroundWindow()
-
-	store.MoveToWorkspace(foregroundWindow, workspace)
-}
-
-func HideWorkspace(workspace int) {
-	foregroundWindow := win.GetForegroundWindow()
-
-	store.MoveToWorkspace(foregroundWindow, workspace)
+func SwitchToWorkspace(newWorkspace int) {
+	container := store.GetContainer()
+	container.SwitchToWorkspace(newWorkspace)
 }

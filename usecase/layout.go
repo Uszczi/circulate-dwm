@@ -12,8 +12,10 @@ func SetColumnLayout() {
 	var layout layouts.Layout
 	layout = &layouts.ColumnLayout{}
 
-	positions := layout.Calculate(workspace.Windows)
-	core.SetWindows(workspace.Windows, positions)
+	if len(workspace.WHWND) > 0 {
+		positions := layout.Calculate(workspace.WHWND)
+		core.SetWindows(workspace.WHWND, positions)
+	}
 }
 
 func SetRowLayout() {
@@ -22,8 +24,8 @@ func SetRowLayout() {
 	var layout layouts.Layout
 	layout = &layouts.RowLayout{}
 
-	positions := layout.Calculate(workspace.Windows)
-	core.SetWindows(workspace.Windows, positions)
+	positions := layout.Calculate(workspace.WHWND)
+	core.SetWindows(workspace.WHWND, positions)
 }
 
 func SetPreviousLayout() {
@@ -32,8 +34,4 @@ func SetPreviousLayout() {
 
 func SetNextLayout() {
 	return
-}
-
-func SwitchToLayout(workspaceName int) {
-	store.SwitchToLayout(workspaceName)
 }

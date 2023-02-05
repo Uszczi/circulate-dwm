@@ -1,56 +1,16 @@
 package store
 
 import (
-	"circulate/layouts"
-	"circulate/ty"
-	"circulate/win"
-	"fmt"
-	"sync"
+	"circulate/core"
 )
 
-type workspacesStore struct {
-	sync.RWMutex
-	workspaces       []*workspaceStore
-	active_workspace int
-}
-
-type workspaceStore struct {
-	Windows []ty.HWND
-	layout  layouts.Layout
-}
-
-var w = &workspacesStore{active_workspace: 1, workspaces: []*workspaceStore{
+var w = &core.Container{ActiveWorkspace: 0, Workspaces: []*core.Workspace{
 	{}, {}, {}, {}, {}, {},
 }}
 
-func PrintDebugWorkspace() {
-	for _, workspace := range w.workspaces {
-		fmt.Println(workspace.Windows)
-	}
-	return
+func GetContainer() *core.Container {
+	return w
 }
-
-func MoveToWorkspace(hwnd ty.HWND, workspaceName int) {
-	w.workspaces[workspaceName].Windows = append(w.workspaces[workspaceName].Windows, hwnd)
-}
-
-func SwitchToLayout(workspaceName int) {
-	w.active_workspace = workspaceName
-
-	for _, workspace := range w.workspaces {
-		for _, hwnd := range workspace.Windows {
-			win.ShowWindow(hwnd, 6)
-		}
-	}
-	for _, hwnd := range w.workspaces[workspaceName].Windows {
-		win.ShowWindow(hwnd, 1)
-	}
-}
-
-func GetActiveWorkspace() *workspaceStore {
-	return w.workspaces[w.active_workspace]
-}
-
-func SetActiveLayout(layout layouts.Layout) {
-	w.workspaces[w.active_workspace].layout = layout
+func GetActiveWorkspace() *core.Workspace {
+	return w.Workspaces[w.ActiveWorkspace]
 }

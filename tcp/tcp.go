@@ -96,7 +96,7 @@ func read(conn net.Conn) {
 			usecase.PrintWorkspaceDebug()
 		case "switch-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
-			usecase.SwitchToLayout(workspace - 1)
+			usecase.SwitchToWorkspace(workspace - 1)
 		case "move-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
 			usecase.MoveToWorkspace(workspace - 1)
