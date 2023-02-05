@@ -19,7 +19,10 @@ func SetColumnLayout() {
 func SetRowLayout() {
 	workspace := store.GetActiveWorkspace()
 
-	positions := layouts.CalculateRows(workspace.Windows)
+	var layout layouts.Layout
+	layout = &layouts.RowLayout{Windows: workspace.Windows}
+
+	positions := layout.Calculate()
 	core.SetWindows(workspace.Windows, positions)
 }
 
