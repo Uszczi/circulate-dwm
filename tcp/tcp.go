@@ -139,6 +139,7 @@ func handle(conn net.Conn) {
 }
 
 func RunTcpServer() {
+	fmt.Println("Start Tcp Server")
 	server, _ := net.Listen("tcp", "localhost:8018")
 	for {
 		conn, err := server.Accept()

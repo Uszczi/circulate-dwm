@@ -1,6 +1,8 @@
 package core
 
 import (
+	"circulate/layouts"
+	"circulate/ty"
 	"fmt"
 	"log"
 	"syscall"
@@ -88,9 +90,15 @@ func ActiveWinEventHook(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, id
 
 	fmt.Printf("IsWindowVisible: %#v\n", jw32.IsWindowVisible(jw32.HWND(hwnd)))
 
-	// windows := GetWindows()
-	// positions := layouts.CalculateColumns(windows)
-	// SetWindows(windows, positions)
+	windows := GetWindows()
+	var ww []ty.HWND
+
+	for _, v := range windows {
+		ww = append(ww, ty.HWND(v))
+	}
+
+	positions := layouts.CalculateColumns(ww)
+	SetWindows(ww, positions)
 
 	return 0
 
@@ -100,6 +108,7 @@ func Handler(str string) {
 }
 
 func RunWindowsServer() {
+	fmt.Println("Start Windows Server")
 	w32.GetModuleHandle("")
 
 	winEvHook := SetWinEventHook(0x8000, 0x8000, 0, ActiveWinEventHook, 0, 0, WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS)

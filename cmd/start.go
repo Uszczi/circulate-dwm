@@ -24,12 +24,16 @@ var startCommand = &cobra.Command{
 func start() {
 	fmt.Println("Start circulate")
 
-	wg.Add(1)
+	tasks := []func(){
+		// core.RunWindowsServer,
+		tcp.RunTcpServer,
+	}
 
-	fmt.Println("Start Tcp Server")
-	go tcp.RunTcpServer()
-	fmt.Println("Start Windows Server")
-	// go core.RunWindowsServer()
+	wg.Add(len(tasks))
+
+	for _, task := range tasks {
+		go task()
+	}
 
 	wg.Wait()
 }
