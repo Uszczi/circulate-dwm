@@ -9,19 +9,17 @@ import (
 
 type Layout interface {
 	Add(ty.HWND)
-	Calculate() []RECT
+	Calculate([]ty.HWND) []RECT
 }
 
 type ColumnLayout struct {
-	Windows []ty.HWND
 }
 
 func (*ColumnLayout) Add(ty.HWND) {
 	return
 }
 
-func (cl *ColumnLayout) Calculate() []RECT {
-	windows := cl.Windows
+func (cl *ColumnLayout) Calculate(windows []ty.HWND) []RECT {
 	amount := int32(len(windows))
 	result := []RECT{}
 

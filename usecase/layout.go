@@ -10,9 +10,9 @@ func SetColumnLayout() {
 	workspace := store.GetActiveWorkspace()
 
 	var layout layouts.Layout
-	layout = &layouts.ColumnLayout{Windows: workspace.Windows}
+	layout = &layouts.ColumnLayout{}
 
-	positions := layout.Calculate()
+	positions := layout.Calculate(workspace.Windows)
 	core.SetWindows(workspace.Windows, positions)
 }
 
@@ -20,9 +20,9 @@ func SetRowLayout() {
 	workspace := store.GetActiveWorkspace()
 
 	var layout layouts.Layout
-	layout = &layouts.RowLayout{Windows: workspace.Windows}
+	layout = &layouts.RowLayout{}
 
-	positions := layout.Calculate()
+	positions := layout.Calculate(workspace.Windows)
 	core.SetWindows(workspace.Windows, positions)
 }
 

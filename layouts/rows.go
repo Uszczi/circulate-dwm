@@ -7,16 +7,13 @@ import (
 	"github.com/tadvi/winc/w32"
 )
 
-type RowLayout struct {
-	Windows []ty.HWND
-}
+type RowLayout struct{}
 
 func (*RowLayout) Add(ty.HWND) {
 	return
 }
 
-func (rl *RowLayout) Calculate() []RECT {
-	windows := rl.Windows
+func (rl *RowLayout) Calculate(windows []ty.HWND) []RECT {
 	amount := int32(len(windows))
 	result := []RECT{}
 
