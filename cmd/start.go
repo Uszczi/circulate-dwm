@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"circulate/core"
 	"circulate/tcp"
 	"fmt"
 	"sync"
@@ -25,7 +26,7 @@ func start() {
 	fmt.Println("Start circulate")
 
 	tasks := []func(){
-		// core.RunWindowsServer,
+		core.RunWindowsServer,
 		tcp.RunTcpServer,
 	}
 

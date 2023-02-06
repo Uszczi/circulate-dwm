@@ -2,6 +2,7 @@ package core
 
 import (
 	"circulate/ty"
+	"circulate/win"
 	"fmt"
 	"log"
 	"syscall"
@@ -10,36 +11,7 @@ import (
 	"github.com/tadvi/winc/w32"
 )
 
-var (
-	procSetWinEventHook = user32.NewProc("SetWinEventHook")
-)
-
-type WINEVENTPROC func(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr
-
-type (
-	HANDLE        uintptr
-	HINSTANCE     HANDLE
-	HHOOK         HANDLE
-	HMODULE       HANDLE
-	HWINEVENTHOOK HANDLE
-	DWORD         uint32
-	INT           int
-	WPARAM        uintptr
-	LPARAM        uintptr
-	LRESULT       uintptr
-	HWND          HANDLE
-	UINT          uint32
-	BOOL          int32
-	ULONG_PTR     uintptr
-	LONG          int32
-	LPWSTR        *WCHAR
-	WCHAR         uint16
-)
-
 const (
-	//~ EVENT_SYSTEM_FOREGROUND DWORD = 0x0003
-	//~ WINEVENT_OUTOFCONTEXT  DWORD = 0x0000
-	//~ WINEVENT_INCONTEXT   = 0x0004
 	EVENT_SYSTEM_FOREGROUND = 3
 	WINEVENT_OUTOFCONTEXT   = 0
 	WINEVENT_INCONTEXT      = 4
@@ -47,7 +19,7 @@ const (
 	WINEVENT_SKIPOWNTHREAD  = 1
 )
 
-func ActiveWinEventHook(hWinEventHook HWINEVENTHOOK, event uint32, hwnd HWND, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
+func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
 	if !isElibible(syscall.Handle(hwnd)) {
 		return 0
 	}
@@ -108,9 +80,11 @@ func Handler(str string) {
 
 func RunWindowsServer() {
 	fmt.Println("Start Windows Server")
-	w32.GetModuleHandle("")
+	w32.GetModuleHandle("") // [TODO] check what it is
 
-	winEvHook := SetWinEventHook(0x8000, 0x8000, 0, ActiveWinEventHook, 0, 0, WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS)
+	// [TODO] what is 0x8000
+	// [TODO] check last argument
+	winEvHook := win.SetWinEventHook(0x8000, 0x8000, 0, ActiveWinEventHook, 0, 0, WINEVENT_OUTOFCONTEXT|WINEVENT_SKIPOWNPROCESS)
 	defer w32.UnhookWindowsHookEx(w32.HANDLE(winEvHook))
 
 	for {
@@ -121,20 +95,3 @@ func RunWindowsServer() {
 		}
 	}
 }
-
-func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, pfnWinEventProc WINEVENTPROC, idProcess DWORD, idThread DWORD, dwFlags DWORD) HWINEVENTHOOK {
-	pfnWinEventProcCallback := syscall.NewCallback(pfnWinEventProc)
-	ret, _, _ := procSetWinEventHook.Call(
-		uintptr(eventMin),
-		uintptr(eventMax),
-		uintptr(hmodWinEventProc),
-		pfnWinEventProcCallback,
-		uintptr(idProcess),
-		uintptr(idThread),
-		uintptr(dwFlags),
-	)
-
-	return HWINEVENTHOOK(ret)
-}
-
-// mn =
