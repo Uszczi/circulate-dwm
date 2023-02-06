@@ -13,6 +13,6 @@ func init() {
 var versionCmd = &cobra.Command{
 	Use: "version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("[TODO] add version ouput")
+		fmt.Println("0.0.1")
 	},
 }
