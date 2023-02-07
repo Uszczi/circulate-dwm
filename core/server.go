@@ -5,7 +5,6 @@ import (
 	"circulate/win"
 	"fmt"
 	"log"
-	"syscall"
 
 	jw32 "github.com/jcollie/w32"
 	"github.com/tadvi/winc/w32"
@@ -20,7 +19,7 @@ const (
 )
 
 func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
-	if !isElibible(syscall.Handle(hwnd)) {
+	if !isElibible(ty.HWND(hwnd)) {
 		return 0
 	}
 

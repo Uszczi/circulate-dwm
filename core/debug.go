@@ -1,18 +1,16 @@
 package core
 
 import (
+	"circulate/ty"
+	"circulate/win"
 	"fmt"
 
 	jw32 "github.com/jcollie/w32"
 	"github.com/tadvi/winc/w32"
 )
 
-var (
-	isIconic = user32.NewProc("IsIconic")
-)
-
 func PrintDebugWindow(h uintptr) {
-	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
+	isWindowIconic := win.IsWindowIconic(ty.HWND(h))
 	isWindowsVisible := w32.IsWindowVisible(h)
 	windowText := w32.GetWindowText(uintptr(h))
 	windowRect := w32.GetWindowRect(uintptr(h))

@@ -3,43 +3,37 @@ package core
 import (
 	"circulate/layouts"
 	"circulate/ty"
+	"circulate/win"
 	"log"
-	"syscall"
 
 	jw32 "github.com/jcollie/w32"
 	"github.com/tadvi/winc/w32"
-	"golang.org/x/sys/windows"
-)
-
-var (
-	user32      = windows.NewLazyDLL("user32.dll")
-	enumWindows = user32.NewProc("EnumWindows")
 )
 
 func getWindows() []uintptr {
 	container := []uintptr{}
 
-	cb := syscall.NewCallback(func(h syscall.Handle, p uintptr) uintptr {
-		if !isElibible(h) {
-			return 1
+	callback := func(hwnd ty.HWND) {
+		if !isElibible(hwnd) {
+			return
 		}
 
-		container = append(container, uintptr(h))
-		return 1
-	})
+		container = append(container, uintptr(hwnd))
+		return
+	}
 
-	_, _, _ = enumWindows.Call(cb, 0)
+	win.EnumWindows(callback)
 	return container
 }
 
-func isElibible(h syscall.Handle) bool {
+func isElibible(h ty.HWND) bool {
+
 	isWindowVisible := w32.IsWindowVisible(uintptr(h))
 	isWindow := w32.IsWindow(uintptr(h))
 	isWindowEnabled := w32.IsWindowEnabled(uintptr(h))
 	windowText := w32.GetWindowText(uintptr(h))
 	className, _ := jw32.GetClassName(jw32.HWND(h))
-	isWindowIconic, _, _ := isIconic.Call(uintptr(h))
-
+	isWindowIconic := win.IsWindowIconic(h)
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||

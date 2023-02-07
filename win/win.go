@@ -14,6 +14,7 @@ var (
 	user32              = windows.NewLazyDLL("user32.dll")
 	isIconic            = user32.NewProc("IsIconic")
 	procSetWinEventHook = user32.NewProc("SetWinEventHook")
+	enumWindows         = user32.NewProc("EnumWindows")
 )
 
 type WINEVENTPROC func(hWinEventHook HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr
@@ -73,4 +74,12 @@ func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, p
 	)
 
 	return HWINEVENTHOOK(ret)
+}
+
+func EnumWindows(callback func(ty.HWND)) {
+	cb := syscall.NewCallback(func(h syscall.Handle, p uintptr) uintptr {
+		callback(ty.HWND(h))
+		return 0
+	})
+	_, _, _ = enumWindows.Call(cb, 0)
 }
