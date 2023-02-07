@@ -8,6 +8,8 @@ import (
 	jw32 "github.com/jcollie/w32"
 )
 
+var excludedClassNames = []string{"Windows.UI.Core.CoreWindow", "MSTaskListWClass"}
+
 func getWindows() []ty.HWND {
 	container := []ty.HWND{}
 
@@ -46,6 +48,11 @@ func isElibible(hwnd ty.HWND) bool {
 		windowText == "Settings" {
 
 		return false
+	}
+	for _, name := range excludedClassNames {
+		if name == className {
+			return false
+		}
 	}
 
 	PrintDebugWindow(hwnd)
