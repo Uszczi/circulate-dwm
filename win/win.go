@@ -72,6 +72,10 @@ func IsWindowIconic(hwnd ty.HWND) uintptr {
 	return isIconic
 }
 
+func GetWindowLongPtr(hwnd ty.HWND, index int) uintptr {
+	return jw32.GetWindowLongPtr(jw32.HWND(hwnd), index)
+}
+
 func ShowWindow(hwnd ty.HWND, cmdshow int) bool {
 	result := jw32.ShowWindow(jw32.HWND(hwnd), cmdshow)
 	return result
