@@ -47,8 +47,24 @@ func GetForegroundWindow() ty.HWND {
 	return ty.HWND(jw32.GetForegroundWindow())
 }
 
+func IsWindow(hwnd ty.HWND) bool {
+	return jw32.IsWindow(jw32.HWND(hwnd))
+}
+
 func IsWindowVisible(hwnd ty.HWND) bool {
 	return jw32.IsWindowVisible(jw32.HWND(hwnd))
+}
+
+func IsWindowEnabled(hwnd ty.HWND) bool {
+	return jw32.IsWindowEnabled(jw32.HWND(hwnd))
+}
+
+func GetWindowText(hwnd ty.HWND) string {
+	return jw32.GetWindowText(jw32.HWND(hwnd))
+}
+
+func GetClassName(hwnd ty.HWND) (string, bool) {
+	return jw32.GetClassName(jw32.HWND(hwnd))
 }
 
 func IsWindowIconic(hwnd ty.HWND) uintptr {

@@ -4,10 +4,8 @@ import (
 	"circulate/layouts"
 	"circulate/ty"
 	"circulate/win"
-	"log"
 
 	jw32 "github.com/jcollie/w32"
-	"github.com/tadvi/winc/w32"
 )
 
 func getWindows() []ty.HWND {
@@ -26,14 +24,14 @@ func getWindows() []ty.HWND {
 	return container
 }
 
-func isElibible(h ty.HWND) bool {
+func isElibible(hwnd ty.HWND) bool {
+	isWindowVisible := win.IsWindowVisible(hwnd)
+	isWindow := win.IsWindow(hwnd)
+	isWindowEnabled := win.IsWindowEnabled(hwnd)
+	windowText := win.GetWindowText(hwnd)
+	className, _ := win.GetClassName(hwnd)
+	isWindowIconic := win.IsWindowIconic(hwnd)
 
-	isWindowVisible := w32.IsWindowVisible(uintptr(h))
-	isWindow := w32.IsWindow(uintptr(h))
-	isWindowEnabled := w32.IsWindowEnabled(uintptr(h))
-	windowText := w32.GetWindowText(uintptr(h))
-	className, _ := jw32.GetClassName(jw32.HWND(h))
-	isWindowIconic := win.IsWindowIconic(h)
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||
@@ -48,17 +46,7 @@ func isElibible(h ty.HWND) bool {
 		return false
 	}
 
-	log.Printf("\n\n")
-	log.Println("windowText: ", windowText)
-	log.Println("HWND: ", h)
-	log.Println("isWindowVisible: ", isWindowVisible)
-	log.Println("isWindow: ", isWindow)
-	log.Println("isWindowEnabled: ", isWindowEnabled)
-	log.Println("className: ", className)
-	log.Println("isWindowIconic: ", isWindowIconic)
-	log.Println("getActivewindows: ", jw32.GetActiveWindow())
-	log.Println("GetForegroundWindow: ", jw32.GetForegroundWindow())
-
+	PrintDebugWindow(hwnd)
 	return true
 
 }

@@ -4,22 +4,23 @@ import (
 	"circulate/ty"
 	"circulate/win"
 	"fmt"
-
-	jw32 "github.com/jcollie/w32"
-	"github.com/tadvi/winc/w32"
 )
 
-func PrintDebugWindow(h uintptr) {
-	isWindowIconic := win.IsWindowIconic(ty.HWND(h))
-	isWindowsVisible := w32.IsWindowVisible(h)
-	windowText := w32.GetWindowText(uintptr(h))
-	windowRect := w32.GetWindowRect(uintptr(h))
-	frame, _ := jw32.DwmGetWindowAttribute(jw32.HWND(h), jw32.DWMWA_EXTENDED_FRAME_BOUNDS)
+func PrintDebugWindow(hwnd ty.HWND) {
+	isWindowVisible := win.IsWindowVisible(hwnd)
+	isWindow := win.IsWindow(hwnd)
+	isWindowEnabled := win.IsWindowEnabled(hwnd)
+	windowText := win.GetWindowText(hwnd)
+	className, _ := win.GetClassName(hwnd)
+	isWindowIconic := win.IsWindowIconic(hwnd)
 
-	fmt.Printf("\nGetWindowText: %+v\n", windowText)
-	fmt.Printf("isIconic: %+v\n", isWindowIconic)
-	fmt.Printf("IsWindowVisible: %+v\n", isWindowsVisible)
-	fmt.Printf("GetWindowRect: %+v\n", windowRect)
-	fmt.Printf("DWMWA_EXTENDED_FRAME_BOUNDS: %+v\n\n", frame)
+	fmt.Printf("-------\n")
+	fmt.Printf("windowText: %+v\n", windowText)
+	fmt.Printf("isWindowVisible: %+v\n", isWindowVisible)
+	fmt.Printf("isWindow: %+v\n", isWindow)
+	fmt.Printf("isWindowEnabled: %+v\n", isWindowEnabled)
+	fmt.Printf("className: %+v\n", className)
+	fmt.Printf("isWindowIconic: %+v\n", isWindowIconic)
+	fmt.Printf("-------\n")
 
 }
