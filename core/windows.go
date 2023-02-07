@@ -11,7 +11,7 @@ func getWindows() []ty.HWND {
 	container := []ty.HWND{}
 
 	callback := func(hwnd ty.HWND) {
-		if !isElibible(hwnd) {
+		if !IsElibible(hwnd) {
 			return
 		}
 
@@ -23,7 +23,7 @@ func getWindows() []ty.HWND {
 	return container
 }
 
-func isElibible(hwnd ty.HWND) bool {
+func IsElibible(hwnd ty.HWND) bool {
 	isWindowVisible := win.IsWindowVisible(hwnd)
 	isWindow := win.IsWindow(hwnd)
 	isWindowEnabled := win.IsWindowEnabled(hwnd)

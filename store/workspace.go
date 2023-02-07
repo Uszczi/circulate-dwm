@@ -12,6 +12,9 @@ var w = &core.Container{ActiveWorkspace: 0, Workspaces: []*core.Workspace{
 	{Layout: &layouts.ColumnLayout{}},
 	{Layout: &layouts.ColumnLayout{}},
 	{Layout: &layouts.ColumnLayout{}},
+	{Layout: &layouts.ColumnLayout{}},
+	{Layout: &layouts.ColumnLayout{}},
+	{Layout: &layouts.ColumnLayout{}},
 }}
 
 func GetContainer() *core.Container {

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"circulate/core"
+	"circulate/server"
 	"circulate/tcp"
 	"sync"
 
@@ -23,7 +23,7 @@ var startCommand = &cobra.Command{
 
 func start() {
 	tasks := []func(){
-		core.RunWindowsServer,
+		server.RunWindowsServer,
 		tcp.RunTcpServer,
 	}
 

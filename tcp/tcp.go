@@ -3,6 +3,7 @@ package tcp
 import (
 	"bytes"
 	"circulate/usecase"
+	"circulate/win"
 	"encoding/gob"
 	"io"
 	"log"
@@ -88,12 +89,15 @@ func read(conn net.Conn) {
 		switch args[0] {
 		case "debug-workspace":
 			usecase.PrintWorkspaceDebug()
+		case "clear-workspace":
+			usecase.ClearWorkspace()
 		case "switch-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
 			usecase.SwitchToWorkspace(workspace - 1)
 		case "move-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
-			usecase.MoveToWorkspace(workspace - 1)
+			foregroundWindow := win.GetForegroundWindow()
+			usecase.MoveToWorkspace(foregroundWindow, workspace-1)
 		case "set-layout":
 			switch args[1] {
 			case "rows":

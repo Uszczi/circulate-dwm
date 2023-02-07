@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"circulate/store"
+	"circulate/ty"
 	"circulate/win"
 	"log"
 )
@@ -10,15 +11,22 @@ func PrintWorkspaceDebug() {
 	store.GetContainer().PrintDebugWorkspace()
 }
 
-func MoveToWorkspace(newWorkspace int) {
-	foregroundWindow := win.GetForegroundWindow()
-	log.Printf("Moving %+v windows to %+v workspace\n", foregroundWindow, newWorkspace)
+func ClearWorkspace() {
+	store.GetActiveWorkspace().WHWND = []ty.HWND{}
+
+}
+
+// foregroundWindow := win.GetForegroundWindow()
+
+func MoveToWorkspace(hwnd ty.HWND, newWorkspace int) {
+
+	log.Printf("Moving %+v windows to %+v workspace\n", hwnd, newWorkspace)
 	container := store.GetContainer()
 	if newWorkspace != container.ActiveWorkspace {
-		win.ShowWindow(foregroundWindow, 6)
+		win.ShowWindow(hwnd, 6)
 	}
 
-	container.MoveToWorkspace(foregroundWindow, newWorkspace)
+	container.MoveToWorkspace(hwnd, newWorkspace)
 	container.Workspaces[container.ActiveWorkspace].UpdateLayout()
 }
 

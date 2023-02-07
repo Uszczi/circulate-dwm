@@ -10,6 +10,7 @@ func init() {
 	rootCmd.AddCommand(moveToLayout)
 	rootCmd.AddCommand(switchToWorkspace)
 	rootCmd.AddCommand(debugWorkspace)
+	rootCmd.AddCommand(clearWorkspace)
 }
 
 var switchToWorkspace = &cobra.Command{
@@ -43,5 +44,13 @@ var debugWorkspace = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		tcp.SendCommand("debug-workspace")
+	},
+}
+
+var clearWorkspace = &cobra.Command{
+	Use: "clear-workspace",
+
+	Run: func(cmd *cobra.Command, args []string) {
+		tcp.SendCommand("clear-workspace")
 	},
 }
