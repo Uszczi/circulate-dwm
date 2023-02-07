@@ -27,8 +27,8 @@ func (cr *Container) SwitchToWorkspace(workspaceID int) {
 }
 
 func (cr *Container) PrintDebugWorkspace() {
+	fmt.Printf("%#v\n", cr.ActiveWorkspace)
 	for _, workspace := range cr.Workspaces {
-		fmt.Println(workspace.WHWND)
+		fmt.Printf("%+v\n", workspace)
 	}
-	return
 }

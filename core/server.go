@@ -3,7 +3,6 @@ package core
 import (
 	"circulate/ty"
 	"circulate/win"
-	"fmt"
 
 	"github.com/tadvi/winc/w32"
 )
@@ -29,11 +28,9 @@ func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uint
 
 }
 func Handler(str string) {
-	fmt.Println("handerrr", str)
 }
 
 func RunWindowsServer() {
-	fmt.Println("Start Windows Server")
 	w32.GetModuleHandle("") // [TODO] check what it is
 
 	// [TODO] what is 0x8000

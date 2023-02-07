@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"circulate/tcp"
-	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -22,7 +21,6 @@ var switchToWorkspace = &cobra.Command{
 		}
 		workspace := args[0]
 
-		fmt.Println("switch-to-workspace" + " " + workspace)
 		tcp.SendCommand("switch-to-workspace" + " " + workspace)
 	},
 }

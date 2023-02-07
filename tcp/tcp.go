@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"circulate/usecase"
 	"encoding/gob"
-	"fmt"
 	"io"
 	"log"
 	"net"
@@ -38,7 +37,6 @@ func recv(conn net.Conn) {
 	gobobjdec := gob.NewDecoder(tmpbuff)
 	_ = gobobjdec.Decode(tmpstruct)
 
-	fmt.Println(tmpstruct)
 }
 
 func SendCommand(message ...string) {
@@ -85,13 +83,9 @@ func read(conn net.Conn) {
 		gobobj := gob.NewDecoder(tmpbuff)
 		_ = gobobj.Decode(tmpstruct)
 
-		fmt.Println(tmpstruct)
-
 		args := strings.Split(tmpstruct.Data, " ")
 
 		switch args[0] {
-		case "toogle":
-			usecase.UseSetHowHide()
 		case "debug-workspace":
 			usecase.PrintWorkspaceDebug()
 		case "switch-to-workspace":
@@ -131,15 +125,11 @@ func resp(conn net.Conn) {
 func handle(conn net.Conn) {
 	_ = conn.SetReadDeadline(time.Now().Add(time.Second))
 
-	remoteAddr := conn.RemoteAddr().String()
-	fmt.Println("Client connected from " + remoteAddr)
-
 	read(conn)
 	resp(conn)
 }
 
 func RunTcpServer() {
-	fmt.Println("Start Tcp Server")
 	server, _ := net.Listen("tcp", "localhost:8018")
 	for {
 		conn, err := server.Accept()

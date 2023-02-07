@@ -1,11 +1,8 @@
 package core
 
 import (
-	"circulate/layouts"
 	"circulate/ty"
 	"circulate/win"
-
-	jw32 "github.com/jcollie/w32"
 )
 
 var excludedClassNames = []string{"Windows.UI.Core.CoreWindow", "MSTaskListWClass"}
@@ -62,14 +59,5 @@ func isElibible(hwnd ty.HWND) bool {
 
 func GetWindows() []ty.HWND {
 	return getWindows()
-
-}
-
-func SetWindows(windows []ty.HWND, rects []layouts.RECT) {
-	for i, hwnd := range windows {
-		rect := rects[i]
-
-		jw32.SetWindowPos(jw32.HWND(hwnd), jw32.HWND_NOTOPMOST, int(rect.Left), int(rect.Top), int(rect.Right), int(rect.Bottom), jw32.SWP_NOACTIVATE|0x0020)
-	}
 
 }

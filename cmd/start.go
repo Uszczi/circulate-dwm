@@ -3,7 +3,6 @@ package cmd
 import (
 	"circulate/core"
 	"circulate/tcp"
-	"fmt"
 	"sync"
 
 	"github.com/spf13/cobra"
@@ -23,8 +22,6 @@ var startCommand = &cobra.Command{
 }
 
 func start() {
-	fmt.Println("Start circulate")
-
 	tasks := []func(){
 		core.RunWindowsServer,
 		tcp.RunTcpServer,
