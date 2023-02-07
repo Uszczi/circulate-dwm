@@ -27,8 +27,16 @@ func (cr *Container) SwitchToWorkspace(workspaceID int) {
 }
 
 func (cr *Container) PrintDebugWorkspace() {
-	fmt.Printf("%#v\n", cr.ActiveWorkspace)
+	fmt.Printf("\nActiveWorkspace: %#v\n", cr.ActiveWorkspace+1)
 	for _, workspace := range cr.Workspaces {
-		fmt.Printf("%+v\n", workspace)
+		fmt.Printf("%+v, %T\n", workspace, workspace.Layout)
+
+		expected_setup := "[]"
+		if len(workspace.WHWND) > 0 {
+			rects := workspace.Layout.Calculate(workspace.WHWND)
+			expected_setup = fmt.Sprint(rects)
+		}
+
+		fmt.Printf("Expected setup: %+v\n", expected_setup)
 	}
 }
