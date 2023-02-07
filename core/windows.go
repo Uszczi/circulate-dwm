@@ -5,7 +5,11 @@ import (
 	"circulate/win"
 )
 
-var excludedClassNames = []string{"Windows.UI.Core.CoreWindow", "MSTaskListWClass"}
+var excludedClassNames = []string{
+	"Windows.UI.Core.CoreWindow",
+	"MSTaskListWClass",
+	"Windows.UI.Composition.DesktopWindowContentBridge",
+}
 
 func getWindows() []ty.HWND {
 	container := []ty.HWND{}
