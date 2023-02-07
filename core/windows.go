@@ -10,15 +10,15 @@ import (
 	"github.com/tadvi/winc/w32"
 )
 
-func getWindows() []uintptr {
-	container := []uintptr{}
+func getWindows() []ty.HWND {
+	container := []ty.HWND{}
 
 	callback := func(hwnd ty.HWND) {
 		if !isElibible(hwnd) {
 			return
 		}
 
-		container = append(container, uintptr(hwnd))
+		container = append(container, hwnd)
 		return
 	}
 
@@ -63,7 +63,7 @@ func isElibible(h ty.HWND) bool {
 
 }
 
-func GetWindows() []uintptr {
+func GetWindows() []ty.HWND {
 	return getWindows()
 
 }
