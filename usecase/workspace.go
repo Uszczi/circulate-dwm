@@ -8,19 +8,18 @@ import (
 )
 
 func PrintWorkspaceDebug() {
+	log.Println("[usecase.PrintWorkspaceDebug]")
 	store.GetContainer().PrintDebugWorkspace()
 }
 
 func ClearWorkspace() {
+	log.Println("[usecase.ClearWorkspace]")
 	store.GetActiveWorkspace().WHWND = []ty.HWND{}
 
 }
 
-// foregroundWindow := win.GetForegroundWindow()
-
 func MoveToWorkspace(hwnd ty.HWND, newWorkspace int) {
-
-	log.Printf("Moving %+v windows to %+v workspace\n", hwnd, newWorkspace)
+	log.Printf("[usecase.MoveToWorkspace] hwnd=%v, newWorkspace=%v\n", hwnd, newWorkspace)
 	container := store.GetContainer()
 	if newWorkspace != container.ActiveWorkspace {
 		win.ShowWindow(hwnd, 6)
@@ -31,6 +30,7 @@ func MoveToWorkspace(hwnd ty.HWND, newWorkspace int) {
 }
 
 func SwitchToWorkspace(newWorkspace int) {
+	log.Printf("[usecase.SwitchToWorkspace] newWorkspace=%v\n", newWorkspace)
 	container := store.GetContainer()
 	container.SwitchToWorkspace(newWorkspace)
 }

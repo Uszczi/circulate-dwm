@@ -28,21 +28,27 @@ func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uint
 	if !core.IsElibible(ty.HWND(hwnd)) {
 		return 0
 	}
-	// a := storeGetContainer()
 	usecase.MoveToWorkspace(ty.HWND(hwnd), store.GetContainer().ActiveWorkspace)
 	return 0
 
 }
-func Handler(str string) {
+
+func DestroyWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
+	for _, workspace := range store.GetContainer().Workspaces {
+		workspace.RemoveWindow(ty.HWND(hwnd))
+		workspace.UpdateLayout()
+	}
+	return 0
 }
 
 func RunWindowsServer() {
 	w32.GetModuleHandle("") // [TODO] check what it is
 
-	// [TODO] what is 0x8000
-	// [TODO] check last argument
 	winEvHook := win.SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, 0, ActiveWinEventHook, 0, 0, 0)
+	winEvHook2 := win.SetWinEventHook(EVENT_OBJECT_DESTROY, EVENT_OBJECT_DESTROY, 0, DestroyWinEventHook, 0, 0, 0)
+
 	defer w32.UnhookWindowsHookEx(w32.HANDLE(winEvHook))
+	defer w32.UnhookWindowsHookEx(w32.HANDLE(winEvHook2))
 
 	for {
 		var msg w32.MSG
