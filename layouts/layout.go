@@ -6,7 +6,7 @@ import (
 
 type Layout interface {
 	Add(ty.HWND)
-	Calculate([]ty.HWND) []RECT
+	Calculate([]ty.HWND) []ty.RECT
 }
 
 var AllLayouts = [...]string{"columns", "rows", "floating"}

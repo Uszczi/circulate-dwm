@@ -13,18 +13,22 @@ func (*ColumnsLayout) Add(ty.HWND) {
 	return
 }
 
-func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []RECT {
-	amount := int32(len(windows))
-	result := []RECT{}
+func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
+	amount := int(len(windows))
+	result := []ty.RECT{}
 
-	monitor_width := int32(w32.GetSystemMetrics(0))
-	monitor_height := int32(w32.GetSystemMetrics(1) - 37)
-
-	if amount == 1 {
-		return append(result, RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
+	if amount == 0 {
+		return result
 	}
 
-	width := monitor_width / amount
+	monitor_width := int32(w32.GetSystemMetrics(0))
+	monitor_height := int32(w32.GetSystemMetrics(1))
+	if amount == 1 {
+		return append(result, ty.RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
+
+	}
+
+	width := int32(monitor_width) / int32(amount)
 
 	left := int32(0)
 	top := int32(0)
@@ -42,7 +46,7 @@ func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []RECT {
 			w_right := 2*(windowRect.Right-frame.Right) + width
 			w_bottom := windowRect.Bottom - frame.Bottom + bottom
 
-			result = append(result, RECT{Left: w_left, Top: w_top, Right: w_right, Bottom: w_bottom})
+			result = append(result, ty.RECT{Left: w_left, Top: w_top, Right: w_right, Bottom: w_bottom})
 			left += width
 			right += width
 
@@ -51,8 +55,4 @@ func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []RECT {
 	}
 
 	return result
-}
-
-type RECT struct {
-	Left, Top, Right, Bottom int32
 }

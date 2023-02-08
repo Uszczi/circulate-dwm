@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"circulate/server"
+	"log"
 	"sync"
 
 	"github.com/spf13/cobra"
@@ -31,6 +32,6 @@ func start() {
 	for _, task := range tasks {
 		go task()
 	}
-
+	log.Println("Circulate started.")
 	wg.Wait()
 }

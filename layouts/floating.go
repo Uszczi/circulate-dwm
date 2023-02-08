@@ -10,6 +10,6 @@ func (*FloatingLayout) Add(ty.HWND) {
 	return
 }
 
-func (rl *FloatingLayout) Calculate(windows []ty.HWND) []RECT {
-	return []RECT{}
+func (rl *FloatingLayout) Calculate(windows []ty.HWND) []ty.RECT {
+	return []ty.RECT{}
 }

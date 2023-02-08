@@ -13,15 +13,15 @@ func (*RowsLayout) Add(ty.HWND) {
 	return
 }
 
-func (rl *RowsLayout) Calculate(windows []ty.HWND) []RECT {
+func (rl *RowsLayout) Calculate(windows []ty.HWND) []ty.RECT {
 	amount := int32(len(windows))
-	result := []RECT{}
+	result := []ty.RECT{}
 
 	monitor_width := int32(w32.GetSystemMetrics(0))
 	monitor_height := int32(w32.GetSystemMetrics(1) - 37)
 
 	if amount == 1 {
-		return append(result, RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
+		return append(result, ty.RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
 	}
 
 	height := monitor_height / amount
@@ -42,7 +42,7 @@ func (rl *RowsLayout) Calculate(windows []ty.HWND) []RECT {
 			w_right := windowRect.Right - frame.Right + right
 			w_bottom := windowRect.Bottom - frame.Bottom + bottom
 
-			result = append(result, RECT{Left: w_left, Top: w_top, Right: w_right, Bottom: w_bottom})
+			result = append(result, ty.RECT{Left: w_left, Top: w_top, Right: w_right, Bottom: w_bottom})
 			top += height
 		}
 
