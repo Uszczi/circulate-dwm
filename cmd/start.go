@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"circulate/server"
+	"circulate/usecase"
 	"log"
 	"sync"
 
@@ -28,10 +29,12 @@ func start() {
 	}
 
 	wg.Add(len(tasks))
-
 	for _, task := range tasks {
 		go task()
 	}
 	log.Println("Circulate started.")
+
+	usecase.Setup()
+
 	wg.Wait()
 }

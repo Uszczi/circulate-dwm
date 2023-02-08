@@ -99,7 +99,7 @@ func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, p
 func EnumWindows(callback func(ty.HWND)) {
 	cb := syscall.NewCallback(func(h syscall.Handle, p uintptr) uintptr {
 		callback(ty.HWND(h))
-		return 0
+		return 1
 	})
 	_, _, _ = enumWindows.Call(cb, 0)
 }
