@@ -100,15 +100,15 @@ func read(conn net.Conn) {
 			usecase.MoveToWorkspace(foregroundWindow, workspace-1)
 		case "set-layout":
 			switch args[1] {
-			case "rows":
-				usecase.SetRowLayout()
-			case "columns":
-				usecase.SetLayout()
 			case "next":
 				usecase.SetNextLayout()
 			case "previous":
 				usecase.SetPreviousLayout()
+			default:
+				usecase.SetLayout(args[1])
 			}
+		default:
+			log.Printf("Unknow command args=%v\n", args)
 		}
 
 		return

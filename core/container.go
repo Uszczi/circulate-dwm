@@ -2,6 +2,7 @@ package core
 
 import (
 	"circulate/ty"
+	"circulate/win"
 	"fmt"
 )
 
@@ -31,12 +32,16 @@ func (cr *Container) PrintDebugWorkspace() {
 	for _, workspace := range cr.Workspaces {
 		fmt.Printf("%+v, %T\n", workspace, workspace.Layout)
 
+		for _, hwnd := range workspace.WHWND {
+			fmt.Printf("%v: %+v\n", hwnd, win.GetWindowText(hwnd))
+		}
+
 		expected_setup := "[]"
 		if len(workspace.WHWND) > 0 {
 			rects := workspace.Layout.Calculate(workspace.WHWND)
 			expected_setup = fmt.Sprint(rects)
 		}
 
-		fmt.Printf("Expected setup: %+v\n", expected_setup)
+		fmt.Printf("Expected setup: %+v\n\n", expected_setup)
 	}
 }
