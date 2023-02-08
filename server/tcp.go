@@ -1,4 +1,4 @@
-package tcp
+package server
 
 import (
 	"bytes"
@@ -60,6 +60,7 @@ func read(conn net.Conn) {
 	for {
 		msg = recv(conn)
 		args := strings.Split(msg.Data, " ")
+		log.Printf("[TCP] Got message=%v", msg.Data)
 
 		switch args[0] {
 		case "debug-workspace":
