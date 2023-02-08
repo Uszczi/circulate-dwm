@@ -7,12 +7,10 @@
 
 ### TODO
 
-[ . ] Move all things related to Windows API to seperate file \
-[ x ] Add sending commands via TCP \
-[ x ] How to exclude PowerToys search window? \
-[ ] Investigate issue with invisible borders \
 [ . ] Implement floating layout \
-[ . ] Switch between possible layouts \
+[ ] Move all things related to Windows API to seperate file \
+[ ] Investigate issue with invisible borders \
+[ ] Switch between possible layouts \
 [ ] Implement monadtail and check how this layout is named \
 [ ] Switch focus between windows \
 [ ] Switch focus to specific direction \
