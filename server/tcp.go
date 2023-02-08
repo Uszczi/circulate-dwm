@@ -69,11 +69,11 @@ func read(conn net.Conn) {
 			usecase.ClearWorkspace()
 		case "switch-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
-			usecase.SwitchToWorkspace(workspace - 1)
+			usecase.SwitchToWorkspace(workspace)
 		case "move-to-workspace":
 			workspace, _ := strconv.Atoi(args[1])
 			foregroundWindow := win.GetForegroundWindow()
-			usecase.MoveToWorkspace(foregroundWindow, workspace-1)
+			usecase.MoveToWorkspace(foregroundWindow, workspace)
 		case "set-layout":
 			switch args[1] {
 			case "next":

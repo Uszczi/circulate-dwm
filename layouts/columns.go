@@ -22,7 +22,7 @@ func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
 	}
 
 	monitor_width := int32(w32.GetSystemMetrics(0))
-	monitor_height := int32(w32.GetSystemMetrics(1))
+	monitor_height := int32(w32.GetSystemMetrics(1) - 37)
 	if amount == 1 {
 		return append(result, ty.RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
 

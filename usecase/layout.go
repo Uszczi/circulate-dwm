@@ -10,7 +10,9 @@ import (
 func SetLayout(name string) error {
 	log.Printf("[usecase.SetLayout], name=%v\n", name)
 	newLayout, ok := layouts.CreateLayout(name)
+	log.Printf("newLayout layout {%+v} ok: {%v}\n ", newLayout, ok)
 	if !ok {
+		log.Printf("Unvalid layout {%+v}\n", name)
 		return fmt.Errorf("Unvalid layout {%v}", name)
 
 	}

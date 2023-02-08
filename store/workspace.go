@@ -5,7 +5,7 @@ import (
 	"circulate/layouts"
 )
 
-var w = &core.Container{ActiveWorkspace: 0, Workspaces: []*core.Workspace{
+var w = &core.Container{ActiveWorkspace: 1, Workspaces: []*core.Workspace{
 	{Layout: &layouts.ColumnsLayout{}},
 	{Layout: &layouts.ColumnsLayout{}},
 	{Layout: &layouts.ColumnsLayout{}},
@@ -22,5 +22,5 @@ func GetContainer() *core.Container {
 }
 
 func GetActiveWorkspace() *core.Workspace {
-	return w.Workspaces[w.ActiveWorkspace]
+	return w.Workspaces[w.ActiveWorkspace-1]
 }

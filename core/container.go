@@ -15,7 +15,7 @@ func (cr *Container) MoveToWorkspace(hwnd ty.HWND, workspaceName int) bool {
 	for _, workspace := range cr.Workspaces {
 		workspace.RemoveWindow(hwnd)
 	}
-	return cr.Workspaces[workspaceName].AddWindow(hwnd)
+	return cr.Workspaces[workspaceName-1].AddWindow(hwnd)
 }
 
 func (cr *Container) SwitchToWorkspace(workspaceID int) {
@@ -24,11 +24,11 @@ func (cr *Container) SwitchToWorkspace(workspaceID int) {
 	for _, workspace := range cr.Workspaces {
 		workspace.HideWorkspace()
 	}
-	cr.Workspaces[cr.ActiveWorkspace].ShowWorkspace()
+	cr.Workspaces[cr.ActiveWorkspace-1].ShowWorkspace()
 }
 
 func (cr *Container) PrintDebugWorkspace() {
-	fmt.Printf("\nActiveWorkspace: %#v\n", cr.ActiveWorkspace+1)
+	fmt.Printf("\nActiveWorkspace: %#v\n", cr.ActiveWorkspace)
 	for _, workspace := range cr.Workspaces {
 		fmt.Printf("%+v, %T\n", workspace, workspace.Layout)
 

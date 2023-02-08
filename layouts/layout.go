@@ -20,9 +20,9 @@ func CreateLayout(name string) (Layout, bool) {
 }
 
 var layoutToCreate = map[string]func() Layout{
-	"columns":  createFloatingLayout,
+	"columns":  createColumnsLayout,
 	"rows":     createRowsLayout,
-	"floating": createColumnsLayout}
+	"floating": createFloatingLayout}
 
 func createColumnsLayout() Layout {
 	return &ColumnsLayout{}
