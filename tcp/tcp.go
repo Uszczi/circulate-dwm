@@ -5,7 +5,6 @@ import (
 	"circulate/usecase"
 	"circulate/win"
 	"encoding/gob"
-	"io"
 	"log"
 	"net"
 	"strconv"
@@ -14,12 +13,11 @@ import (
 )
 
 type Message struct {
-	ID   string
 	Data string
 }
 
 func send(conn net.Conn, message string) {
-	msg := Message{ID: "Yo", Data: message}
+	msg := Message{Data: message}
 	bin_buf := new(bytes.Buffer)
 
 	gobobj := gob.NewEncoder(bin_buf)
@@ -28,7 +26,7 @@ func send(conn net.Conn, message string) {
 	_, _ = conn.Write(bin_buf.Bytes())
 }
 
-func recv(conn net.Conn) {
+func recv(conn net.Conn) *Message {
 	tmp := make([]byte, 500)
 	_, _ = conn.Read(tmp)
 
@@ -37,6 +35,7 @@ func recv(conn net.Conn) {
 
 	gobobjdec := gob.NewDecoder(tmpbuff)
 	_ = gobobjdec.Decode(tmpstruct)
+	return tmpstruct
 
 }
 
@@ -55,36 +54,12 @@ func SendCommand(message ...string) {
 	recv(conn)
 }
 
-// TODO there has to be my own logger
-func logerr(err error) bool {
-	if err != nil {
-		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-			log.Println("read timeout:", err)
-		} else if err == io.EOF {
-		} else {
-			log.Println("read error:", err)
-		}
-		return true
-	}
-	return false
-}
-
 func read(conn net.Conn) {
-	tmp := make([]byte, 500)
+	var msg *Message
 
 	for {
-		_, err := conn.Read(tmp)
-		if logerr(err) {
-			break
-		}
-
-		tmpbuff := bytes.NewBuffer(tmp)
-		tmpstruct := new(Message)
-
-		gobobj := gob.NewDecoder(tmpbuff)
-		_ = gobobj.Decode(tmpstruct)
-
-		args := strings.Split(tmpstruct.Data, " ")
+		msg = recv(conn)
+		args := strings.Split(msg.Data, " ")
 
 		switch args[0] {
 		case "debug-workspace":
@@ -116,7 +91,7 @@ func read(conn net.Conn) {
 }
 
 func resp(conn net.Conn) {
-	msg := Message{ID: "Yo", Data: "Hello back"}
+	msg := Message{Data: "Hello back"}
 	bin_buf := new(bytes.Buffer)
 
 	gobobje := gob.NewEncoder(bin_buf)
