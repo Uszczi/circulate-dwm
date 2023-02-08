@@ -6,15 +6,15 @@ import (
 )
 
 var w = &core.Container{ActiveWorkspace: 0, Workspaces: []*core.Workspace{
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
-	{Layout: &layouts.ColumnLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
+	{Layout: &layouts.ColumnsLayout{}},
 }}
 
 func GetContainer() *core.Container {

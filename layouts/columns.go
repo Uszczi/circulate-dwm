@@ -7,19 +7,13 @@ import (
 	"github.com/tadvi/winc/w32"
 )
 
-type Layout interface {
-	Add(ty.HWND)
-	Calculate([]ty.HWND) []RECT
-}
+type ColumnsLayout struct{}
 
-type ColumnLayout struct {
-}
-
-func (*ColumnLayout) Add(ty.HWND) {
+func (*ColumnsLayout) Add(ty.HWND) {
 	return
 }
 
-func (cl *ColumnLayout) Calculate(windows []ty.HWND) []RECT {
+func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []RECT {
 	amount := int32(len(windows))
 	result := []RECT{}
 

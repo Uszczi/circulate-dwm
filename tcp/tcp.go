@@ -103,7 +103,7 @@ func read(conn net.Conn) {
 			case "rows":
 				usecase.SetRowLayout()
 			case "columns":
-				usecase.SetColumnLayout()
+				usecase.SetLayout()
 			case "next":
 				usecase.SetNextLayout()
 			case "previous":

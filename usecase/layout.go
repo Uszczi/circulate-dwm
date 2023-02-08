@@ -3,21 +3,21 @@ package usecase
 import (
 	"circulate/layouts"
 	"circulate/store"
+	"fmt"
 	"log"
 )
 
-func SetColumnLayout() {
-	log.Printf("[usecase.SetColumnLayout]\n")
-	workspace := store.GetActiveWorkspace()
-	workspace.Layout = &layouts.ColumnLayout{}
-	workspace.UpdateLayout()
-}
+func SetLayout(name string) error {
+	log.Printf("[usecase.SetColumnLayout], name=%v\n", name)
+	newLayout, ok := layouts.CreateLayout(name)
+	if !ok {
+		return fmt.Errorf("Unvalid layout {%v}", name)
 
-func SetRowLayout() {
-	log.Printf("[usecase.SetRowLayout]\n")
+	}
 	workspace := store.GetActiveWorkspace()
-	workspace.Layout = &layouts.RowLayout{}
+	workspace.Layout = newLayout
 	workspace.UpdateLayout()
+	return nil
 }
 
 func SetPreviousLayout() {
