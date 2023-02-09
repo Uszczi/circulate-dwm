@@ -46,7 +46,7 @@ var floating = &cobra.Command{
 	Use: "floating",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		server.SendCommand("set-layout columns")
+		server.SendCommand("set-layout floating")
 	},
 }
 

@@ -9,7 +9,8 @@ type Layout interface {
 	Calculate([]ty.HWND) []ty.RECT
 }
 
-var AllLayouts = [...]string{"columns", "rows", "floating"}
+// Wzorzec fabryka
+var AllLayouts = [...]string{"rows", "columns", "floating"}
 
 func CreateLayout(name string) (Layout, bool) {
 	layout, ok := layoutToCreate[name]

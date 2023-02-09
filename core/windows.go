@@ -6,9 +6,9 @@ import (
 )
 
 var excludedClassNames = []string{
-	"Windows.UI.Core.CoreWindow",
 	"MSTaskListWClass",
 	"Windows.UI.Composition.DesktopWindowContentBridge",
+	"Windows.UI.Core.CoreWindow",
 }
 
 func getWindows() []ty.HWND {
@@ -35,15 +35,14 @@ func IsElibible(hwnd ty.HWND) bool {
 	className, _ := win.GetClassName(hwnd)
 	isWindowIconic := win.IsWindowIconic(hwnd)
 	gwlExStyle := win.GetWindowLongPtr(hwnd, win.GWL_EXSTYLE)
-	gwlStyle := win.GetWindowLongPtr(hwnd, win.GWL_STYLE)
+	// gwlStyle := win.GetWindowLongPtr(hwnd, win.GWL_STYLE)
 
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||
 		win.WS_EX_TOPMOST&gwlExStyle != 0 ||
-		win.WS_EX_TOOLWINDOW&gwlStyle != 0 ||
+		win.WS_EX_TOOLWINDOW&gwlExStyle != 0 ||
 		isWindowIconic == 1 ||
-		className == "Windows.UI.Core.CoreWindow" ||
 		windowText == "" ||
 		windowText == "Program Manager" ||
 		windowText == "Calculator" ||
