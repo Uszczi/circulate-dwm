@@ -41,7 +41,7 @@ func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
 			w_right := 2*(windowRect.Right-frame.Right) + width
 			w_bottom := windowRect.Bottom - frame.Bottom + bottom
 
-			result = append(result, ty.RECT{Left: w_left, Top: w_top, Right: w_right, Bottom: w_bottom})
+			result = append(result, ty.RECT{Left: int(w_left), Top: int(w_top), Right: int(w_right), Bottom: int(w_bottom)})
 			left += width
 			right += width
 

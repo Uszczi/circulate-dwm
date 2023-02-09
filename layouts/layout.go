@@ -3,11 +3,15 @@ package layouts
 import (
 	"circulate/ty"
 	"circulate/win"
-
-	"github.com/jcollie/w32"
 )
 
-const toolbar_height_px = 37
+// Where it should be exposed?
+var monitorWidth int
+var monitorHeight int
+
+func init() {
+	monitorWidth, monitorHeight = win.GetDesktopDimentions()
+}
 
 type Layout interface {
 	Add(ty.HWND)
@@ -19,9 +23,7 @@ func handleZeroOrOneWindow(amount int) []ty.RECT {
 		return []ty.RECT{}
 	}
 
-	monitor_width := int32(w32.GetSystemMetrics(win.SM_CXSCREEN))
-	monitor_height := int32(w32.GetSystemMetrics(win.SM_CYSCREEN) - toolbar_height_px)
-	return []ty.RECT{{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height}}
+	return []ty.RECT{{Left: 0, Top: 0, Right: monitorWidth, Bottom: monitorHeight}}
 }
 
 // Wzorzec fabryka

@@ -80,6 +80,11 @@ func ShowWindow(hwnd ty.HWND, cmdshow int) bool {
 	return result
 }
 
+func GetSystemMetrics(index int) int {
+	result := jw32.GetSystemMetrics(index)
+	return result
+}
+
 func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, pfnWinEventProc WINEVENTPROC, idProcess DWORD, idThread DWORD, dwFlags DWORD) HWINEVENTHOOK {
 	pfnWinEventProcCallback := syscall.NewCallback(pfnWinEventProc)
 	ret, _, _ := procSetWinEventHook.Call(
