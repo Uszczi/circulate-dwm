@@ -13,20 +13,24 @@ func (*ColumnsLayout) Add(ty.HWND) {
 	return
 }
 
+func handleZeroOrOneWindow(amount int) []ty.RECT {
+	if amount == 0 {
+		return []ty.RECT{}
+	}
+
+	monitor_width := int32(w32.GetSystemMetrics(jw32.SM_CXSCREEN))
+	monitor_height := int32(w32.GetSystemMetrics(jw32.SM_CYSCREEN) - 37)
+	return []ty.RECT{{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height}}
+}
+
 func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
 	amount := int(len(windows))
-	result := []ty.RECT{}
-
-	if amount == 0 {
-		return result
+	if amount == 0 || amount == 1 {
+		return handleZeroOrOneWindow(amount)
 	}
 
 	monitor_width := int32(w32.GetSystemMetrics(0))
 	monitor_height := int32(w32.GetSystemMetrics(1) - 37)
-	if amount == 1 {
-		return append(result, ty.RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
-
-	}
 
 	width := int32(monitor_width) / int32(amount)
 
@@ -35,6 +39,7 @@ func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
 	right := left + width
 	bottom := monitor_height
 
+	result := []ty.RECT{}
 	for _, h := range windows {
 		_frame, _ := jw32.DwmGetWindowAttribute(jw32.HWND(h), jw32.DWMWA_EXTENDED_FRAME_BOUNDS)
 		frame, ok := _frame.(*jw32.RECT)
