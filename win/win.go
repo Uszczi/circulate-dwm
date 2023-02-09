@@ -7,7 +7,6 @@ import (
 	jw32 "github.com/jcollie/w32"
 	_ "github.com/tadvi/winc/w32"
 	"golang.org/x/sys/windows"
-	_ "golang.org/x/sys/windows"
 )
 
 var (

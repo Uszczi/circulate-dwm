@@ -10,7 +10,6 @@ func Setup() {
 	log.Printf("[usecase.Setup]\n")
 
 	hwnds := core.GetWindows()
-	log.Println("[usecase.Setup]")
 
 	workspace := store.GetActiveWorkspace()
 	for _, hwnd := range hwnds {
