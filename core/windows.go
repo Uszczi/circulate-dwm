@@ -11,22 +11,6 @@ var excludedClassNames = []string{
 	"Windows.UI.Core.CoreWindow",
 }
 
-func getWindows() []ty.HWND {
-	container := []ty.HWND{}
-
-	callback := func(hwnd ty.HWND) {
-		if !IsElibible(hwnd) {
-			return
-		}
-
-		container = append(container, hwnd)
-		return
-	}
-
-	win.EnumWindows(callback)
-	return container
-}
-
 func IsElibible(hwnd ty.HWND) bool {
 	isWindowVisible := win.IsWindowVisible(hwnd)
 	isWindow := win.IsWindow(hwnd)
@@ -37,12 +21,16 @@ func IsElibible(hwnd ty.HWND) bool {
 	gwlExStyle := win.GetWindowLongPtr(hwnd, win.GWL_EXSTYLE)
 	// gwlStyle := win.GetWindowLongPtr(hwnd, win.GWL_STYLE)
 
+	if handleUnclearWindows(hwnd, className, windowText) {
+		return true
+	}
+
 	if !isWindow ||
 		!isWindowEnabled ||
 		!isWindowVisible ||
+		isWindowIconic == 1 ||
 		win.WS_EX_TOPMOST&gwlExStyle != 0 ||
 		win.WS_EX_TOOLWINDOW&gwlExStyle != 0 ||
-		isWindowIconic == 1 ||
 		windowText == "" ||
 		windowText == "Program Manager" ||
 		windowText == "Calculator" ||
@@ -59,6 +47,30 @@ func IsElibible(hwnd ty.HWND) bool {
 
 	PrintDebugWindow(hwnd)
 	return true
+
+}
+
+func getWindows() []ty.HWND {
+	container := []ty.HWND{}
+
+	callback := func(hwnd ty.HWND) {
+		if !IsElibible(hwnd) {
+			return
+		}
+
+		container = append(container, hwnd)
+		return
+	}
+
+	win.EnumWindows(callback)
+	return container
+}
+
+func handleUnclearWindows(hwnd ty.HWND, className string, windowText string) bool {
+	if className == "XLMAIN" && windowText != "" {
+		return true
+	}
+	return false
 
 }
 

@@ -6,7 +6,6 @@ import (
 	"circulate/ty"
 	"circulate/usecase"
 	"circulate/win"
-	"log"
 
 	"github.com/tadvi/winc/w32"
 )
@@ -25,8 +24,6 @@ const (
 )
 
 func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
-
-	log.Println("Creted window: ", hwnd)
 	if !core.IsElibible(ty.HWND(hwnd)) {
 		return 0
 	}
