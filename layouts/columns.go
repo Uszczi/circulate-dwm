@@ -13,18 +13,8 @@ func (*ColumnsLayout) Add(ty.HWND) {
 	return
 }
 
-func handleZeroOrOneWindow(amount int) []ty.RECT {
-	if amount == 0 {
-		return []ty.RECT{}
-	}
-
-	monitor_width := int32(w32.GetSystemMetrics(jw32.SM_CXSCREEN))
-	monitor_height := int32(w32.GetSystemMetrics(jw32.SM_CYSCREEN) - 37)
-	return []ty.RECT{{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height}}
-}
-
 func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
-	amount := int(len(windows))
+	amount := len(windows)
 	if amount == 0 || amount == 1 {
 		return handleZeroOrOneWindow(amount)
 	}

@@ -14,23 +14,22 @@ func (*RowsLayout) Add(ty.HWND) {
 }
 
 func (rl *RowsLayout) Calculate(windows []ty.HWND) []ty.RECT {
-	amount := int32(len(windows))
-	result := []ty.RECT{}
+	amount := len(windows)
+	if amount == 0 || amount == 1 {
+		return handleZeroOrOneWindow(amount)
+	}
 
 	monitor_width := int32(w32.GetSystemMetrics(0))
 	monitor_height := int32(w32.GetSystemMetrics(1) - 37)
 
-	if amount == 1 {
-		return append(result, ty.RECT{Left: 0, Top: 0, Right: monitor_width, Bottom: monitor_height})
-	}
-
-	height := monitor_height / amount
+	height := monitor_height / int32(amount)
 
 	left := int32(0)
 	top := int32(0)
 	right := monitor_width
 	bottom := height
 
+	result := []ty.RECT{}
 	for _, h := range windows {
 		_frame, _ := jw32.DwmGetWindowAttribute(jw32.HWND(h), jw32.DWMWA_EXTENDED_FRAME_BOUNDS)
 		frame, ok := _frame.(*jw32.RECT)

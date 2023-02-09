@@ -11,5 +11,10 @@ func (*FloatingLayout) Add(ty.HWND) {
 }
 
 func (rl *FloatingLayout) Calculate(windows []ty.HWND) []ty.RECT {
+	amount := len(windows)
+	if amount == 0 || amount == 1 {
+		return handleZeroOrOneWindow(amount)
+	}
+
 	return []ty.RECT{}
 }
