@@ -13,5 +13,5 @@ func GetDesktopHeight() int {
 }
 
 func GetDesktopDimentions() (int, int) {
-	return GetDesktopWidth(), GetDesktopWidth()
+	return GetDesktopWidth(), GetDesktopHeight()
 }

@@ -40,7 +40,7 @@ func recv(conn net.Conn) *Message {
 }
 
 func SendCommand(message ...string) {
-	log.Printf("tcp.SendCommand message=%v", message)
+	log.Printf("[tcp.SendCommand] message=%v", message)
 
 	var msg string
 	if len(message) > 0 {

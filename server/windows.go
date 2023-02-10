@@ -6,6 +6,7 @@ import (
 	"circulate/ty"
 	"circulate/usecase"
 	"circulate/win"
+	"log"
 
 	"github.com/tadvi/winc/w32"
 )
@@ -27,6 +28,7 @@ func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uint
 	if !core.IsElibible(ty.HWND(hwnd)) {
 		return 0
 	}
+	log.Printf("[server.ActiveWinEventHook] adding hwnd=%+v ActiveWorkspace=%+v", hwnd, store.GetContainer().ActiveWorkspace)
 	usecase.MoveToWorkspace(ty.HWND(hwnd), store.GetContainer().ActiveWorkspace)
 	return 0
 
@@ -42,7 +44,10 @@ func DestroyWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uin
 	visited[hwnd] = ""
 
 	for _, workspace := range store.GetContainer().Workspaces {
-		workspace.RemoveWindow(ty.HWND(hwnd))
+		removed := workspace.RemoveWindow(ty.HWND(hwnd))
+		if removed {
+			log.Printf("[server.DestroyWinEventHook] removed hwnd=%+v", hwnd)
+		}
 		workspace.UpdateLayout()
 	}
 	return 0
