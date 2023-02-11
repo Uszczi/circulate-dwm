@@ -10,10 +10,12 @@ import (
 )
 
 var (
-	user32              = windows.NewLazyDLL("user32.dll")
-	isIconic            = user32.NewProc("IsIconic")
-	procSetWinEventHook = user32.NewProc("SetWinEventHook")
-	enumWindows         = user32.NewProc("EnumWindows")
+	user32                   = windows.NewLazyDLL("user32.dll")
+	isIconic                 = user32.NewProc("IsIconic")
+	procSetWinEventHook      = user32.NewProc("SetWinEventHook")
+	enumWindows              = user32.NewProc("EnumWindows")
+	AllowSetForegroundWindow = user32.NewProc("AllowSetForegroundWindow")
+	AttachThreadInput        = user32.NewProc("AttachThreadInput")
 )
 
 type WINEVENTPROC func(hWinEventHook HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr

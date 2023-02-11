@@ -5,7 +5,6 @@ import (
 	"circulate/win"
 )
 
-// Where it should be exposed?
 var monitorWidth int
 var monitorHeight int
 
@@ -26,7 +25,6 @@ func handleZeroOrOneWindow(amount int) []ty.RECT {
 	return []ty.RECT{{Left: 0, Top: 0, Right: monitorWidth, Bottom: monitorHeight}}
 }
 
-// Wzorzec fabryka
 var AllLayouts = [...]string{"rows", "columns", "floating"}
 
 func CreateLayout(name string) (Layout, bool) {

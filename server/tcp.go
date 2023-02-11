@@ -63,6 +63,14 @@ func read(conn net.Conn) {
 		log.Printf("[TCP] Got message=%v", msg.Data)
 
 		switch args[0] {
+		case "focus": // TODO
+			switch args[1] {
+			case "next":
+				usecase.FocusNext()
+			case "previous":
+				usecase.FocusPrevious()
+
+			}
 		case "debug-workspace":
 			usecase.PrintWorkspaceDebug()
 		case "clear-workspace":
