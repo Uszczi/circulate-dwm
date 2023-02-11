@@ -2,25 +2,19 @@ package store
 
 import (
 	"circulate/core"
-	"circulate/layouts"
 )
 
-var w = &core.Container{ActiveWorkspace: 1, Workspaces: []*core.Workspace{
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-	{Layout: &layouts.ColumnsLayout{}},
-}}
+var w *core.Container
+
+func SetContainer(container *core.Container) {
+	w = container
+}
 
 func GetContainer() *core.Container {
 	return w
 }
 
 func GetActiveWorkspace() *core.Workspace {
+	// TODO move it from there
 	return w.Workspaces[w.ActiveWorkspace-1]
 }
