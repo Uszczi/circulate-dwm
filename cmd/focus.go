@@ -7,13 +7,12 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(focusRoot)
+	rootCmd.AddCommand(changeFocus)
 }
 
-var focusRoot = &cobra.Command{
+var changeFocus = &cobra.Command{
 	Use:       "focus",
 	ValidArgs: []string{"next", "previous"},
-
 	Run: func(cmd *cobra.Command, args []string) {
 		server.SendCommand("focus " + args[0])
 	},

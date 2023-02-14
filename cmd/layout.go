@@ -13,7 +13,6 @@ func init() {
 var setLayout = &cobra.Command{
 	Use:       "set-layout",
 	ValidArgs: []string{"columns", "rows", "floating", "previous", "next"},
-
 	Run: func(cmd *cobra.Command, args []string) {
 		server.SendCommand("set-layout " + args[0])
 	},
