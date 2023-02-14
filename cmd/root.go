@@ -6,9 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use: "circulate",
-}
+var rootCmd = &cobra.Command{}
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
