@@ -23,7 +23,6 @@ var startCommand = &cobra.Command{
 }
 
 func start() {
-	// There is too much logic
 	usecase.Setup()
 
 	tasks := []func(){
