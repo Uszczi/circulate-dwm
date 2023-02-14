@@ -9,6 +9,7 @@ var excludedClassNames = []string{
 	"MSTaskListWClass",
 	"Windows.UI.Composition.DesktopWindowContentBridge",
 	"Windows.UI.Core.CoreWindow",
+	"ToolbarWindow32",
 }
 
 func IsElibible(hwnd ty.HWND) bool {
@@ -46,8 +47,8 @@ func IsElibible(hwnd ty.HWND) bool {
 	}
 
 	PrintDebugWindow(hwnd)
-	return true
 
+	return true
 }
 
 func getWindows() []ty.HWND {
@@ -70,11 +71,13 @@ func handleUnclearWindows(hwnd ty.HWND, className string, windowText string) boo
 	if className == "XLMAIN" && windowText != "" {
 		return true
 	}
-	return false
 
+	if className == "CabinetWClass" && windowText != "" {
+		return true
+	}
+	return false
 }
 
 func GetWindows() []ty.HWND {
 	return getWindows()
-
 }
