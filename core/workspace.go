@@ -4,6 +4,7 @@ import (
 	"circulate/layouts"
 	"circulate/ty"
 	"circulate/win"
+	"log"
 
 	jw32 "github.com/jcollie/w32"
 )
@@ -39,13 +40,13 @@ func (ws *Workspace) UpdateLayout() {
 		return
 	}
 
+	log.Println("Before Calculate")
 	rects := ws.Layout.Calculate(ws.WHWND)
+	log.Println("After Calculate")
 	for i, hwnd := range ws.WHWND {
 		rect := rects[i]
-
 		jw32.SetWindowPos(jw32.HWND(hwnd), jw32.HWND_NOTOPMOST, int(rect.Left), int(rect.Top), int(rect.Right), int(rect.Bottom), jw32.SWP_NOACTIVATE|0x0020)
 	}
-
 }
 
 func (ws *Workspace) ShowWorkspace() {

@@ -15,7 +15,6 @@ func PrintWorkspaceDebug() {
 func ClearWorkspace() {
 	log.Println("[usecase.ClearWorkspace]")
 	store.GetActiveWorkspace().WHWND = []ty.HWND{}
-
 }
 
 func MoveToWorkspace(hwnd ty.HWND, newWorkspace int) {
@@ -26,11 +25,12 @@ func MoveToWorkspace(hwnd ty.HWND, newWorkspace int) {
 	}
 
 	container.MoveToWorkspace(hwnd, newWorkspace)
-	container.Workspaces[container.ActiveWorkspace].UpdateLayout()
+	container.Workspaces[container.ActiveWorkspace-1].UpdateLayout()
 }
 
 func SwitchToWorkspace(newWorkspace int) {
 	log.Printf("[usecase.SwitchToWorkspace] newWorkspace=%v\n", newWorkspace)
 	container := store.GetContainer()
 	container.SwitchToWorkspace(newWorkspace)
+	container.Workspaces[container.ActiveWorkspace-1].UpdateLayout()
 }

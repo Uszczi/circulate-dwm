@@ -9,7 +9,6 @@ import (
 )
 
 func PrintDebugWindow(hwnd ty.HWND) {
-	return
 	isWindowVisible := win.IsWindowVisible(hwnd)
 	isWindow := win.IsWindow(hwnd)
 	isWindowEnabled := win.IsWindowEnabled(hwnd)

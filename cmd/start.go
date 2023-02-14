@@ -23,6 +23,9 @@ var startCommand = &cobra.Command{
 }
 
 func start() {
+	// There is too much logic
+	usecase.Setup()
+
 	tasks := []func(){
 		server.RunWindowsServer,
 		server.RunTcpServer,
@@ -33,8 +36,6 @@ func start() {
 		go task()
 	}
 	log.Println("Circulate started.")
-
-	usecase.Setup()
 
 	wg.Wait()
 }

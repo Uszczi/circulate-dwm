@@ -30,8 +30,8 @@ func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uint
 	}
 	log.Printf("[server.ActiveWinEventHook] adding hwnd=%+v ActiveWorkspace=%+v", hwnd, store.GetContainer().ActiveWorkspace)
 	usecase.MoveToWorkspace(ty.HWND(hwnd), store.GetContainer().ActiveWorkspace)
-	return 0
 
+	return 0
 }
 
 var visited = map[uintptr]string{}
@@ -47,8 +47,8 @@ func DestroyWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uin
 		removed := workspace.RemoveWindow(ty.HWND(hwnd))
 		if removed {
 			log.Printf("[server.DestroyWinEventHook] removed hwnd=%+v", hwnd)
+			workspace.UpdateLayout()
 		}
-		workspace.UpdateLayout()
 	}
 	return 0
 }

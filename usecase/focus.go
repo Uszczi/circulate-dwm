@@ -42,12 +42,9 @@ func FocusNext() {
 
 	// ok := w32.SetForegroundWindow(w32.HWND(nextWindowHwnd))
 	// log.Println("[usecase.FocusNext] SetForegroundWindow result:", ok)
-	r, r2, r3 := win.AllowSetForegroundWindow.Call(0xFFFFFFFF)
-	log.Println(r, r2, r3)
 	forceForegroundWindow(int(nextWindowHwnd))
 	// w32.MouseInput(w32.MOUSEINPUT{Dx: -1000, Dy: 500})
 	// w32.MOUSEEVENTF_MOVE
-
 }
 
 func forceForegroundWindow(HWND int) {
@@ -63,6 +60,9 @@ func forceForegroundWindow(HWND int) {
 	w1, w2, w3 := AttachThreadInput(windowThreadProcessId, currentThreadId, 1)
 	log.Println("attach to input", w1, w2, w3)
 
+	r, r2, r3 := win.AllowSetForegroundWindow.Call(0xFFFFFFFF)
+	log.Println(r, r2, r3)
+
 	ok := w32.SetForegroundWindow(w32.HWND(HWND))
 	log.Println("[usecase.FocusNext] SetForegroundWindow result:", ok)
 	// win.ShowWindow(ty.HWND(HWND), CONST_SW_SHOW)
@@ -73,7 +73,6 @@ func forceForegroundWindow(HWND int) {
 	log.Println("detach from input", e1, e2, e3)
 	erro := w32.GetLastError()
 	log.Println(erro)
-
 }
 
 func AttachThreadInput(idAttach w32.HANDLE, idAttachTo w32.HANDLE, fAttach int) (uintptr, uintptr, error) {
@@ -116,5 +115,4 @@ func FocusPrevious() {
 	forceForegroundWindow(int(nextWindowHwnd))
 	// w32.MouseInput(w32.MOUSEINPUT{Dx: -1000, Dy: 500})
 	// w32.MOUSEEVENTF_MOVE
-
 }
