@@ -10,6 +10,8 @@ var excludedClassNames = []string{
 	"Windows.UI.Composition.DesktopWindowContentBridge",
 	"Windows.UI.Core.CoreWindow",
 	"ToolbarWindow32",
+	"SysListView32",
+	"SysTreeView32",
 }
 
 func IsElibible(hwnd ty.HWND) bool {
@@ -72,9 +74,10 @@ func handleUnclearWindows(hwnd ty.HWND, className string, windowText string) boo
 		return true
 	}
 
-	if className == "CabinetWClass" && windowText != "" {
+	if className == "CabinetWClass" {
 		return true
 	}
+
 	return false
 }
 

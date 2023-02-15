@@ -48,14 +48,14 @@ func FocusNext() {
 }
 
 func forceForegroundWindow(HWND int) {
-	// w32.GetFocus()
 	windowThreadProcessId, _ := w32.GetWindowThreadProcessId(w32.GetForegroundWindow())
 	currentThreadId, _ := w32.GetWindowThreadProcessId(w32.HWND(HWND))
-	// currentThreadId := w32.GetCurrentThread()
-	// w32.SetFocus(w32.HWND(HWND))
 	log.Println(windowThreadProcessId, currentThreadId)
 
-	// CONST_SW_SHOW := 5
+	if int(windowThreadProcessId) == int(currentThreadId) {
+		_ = w32.SetForegroundWindow(w32.HWND(HWND))
+		return
+	}
 
 	w1, w2, w3 := AttachThreadInput(windowThreadProcessId, currentThreadId, 1)
 	log.Println("attach to input", w1, w2, w3)
