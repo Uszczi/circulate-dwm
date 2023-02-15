@@ -87,6 +87,11 @@ func GetSystemMetrics(index int) int {
 	return result
 }
 
+func GetModuleHandle(modulename string) HMODULE {
+	result := jw32.GetModuleHandle(modulename)
+	return HMODULE(result)
+}
+
 func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, pfnWinEventProc WINEVENTPROC, idProcess DWORD, idThread DWORD, dwFlags DWORD) HWINEVENTHOOK {
 	pfnWinEventProcCallback := syscall.NewCallback(pfnWinEventProc)
 	ret, _, _ := procSetWinEventHook.Call(
