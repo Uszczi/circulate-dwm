@@ -1,6 +1,6 @@
 package win
 
-const toolbar_height_px = 37
+const toolbar_height_px = 40
 
 func GetDesktopWidth() int {
 	monitor_width := GetSystemMetrics(SM_CXSCREEN)

@@ -4,9 +4,12 @@ import (
 	"circulate/ty"
 	"circulate/win"
 	"fmt"
+
+	jw32 "github.com/jcollie/w32"
 )
 
 var (
+	AllLayouts    = [...]string{"rows", "columns", "floating"}
 	monitorWidth  int
 	monitorHeight int
 )
@@ -20,23 +23,28 @@ type Layout interface {
 	Calculate([]ty.HWND) []ty.RECT
 }
 
-func handleZeroOrOneWindow(amount int, invisibleBorder ty.RECT) []ty.RECT {
-	if amount == 0 {
-		return []ty.RECT{}
-	}
-	fmt.Println(invisibleBorder)
-	fmt.Println("monitor_width", monitorWidth)
-	fmt.Println("monitor_height", monitorHeight)
-
+func handleSingleWindow(amount int, invisibleBorder ty.RECT) []ty.RECT {
+	fmt.Printf("%+v\n", invisibleBorder)
 	return []ty.RECT{{
 		Top:    -invisibleBorder.Top,
 		Right:  monitorWidth + invisibleBorder.Left - invisibleBorder.Right,
-		Bottom: monitorHeight + invisibleBorder.Top - invisibleBorder.Bottom,
+		Bottom: monitorHeight - invisibleBorder.Bottom,
 		Left:   -invisibleBorder.Left,
 	}}
 }
 
-var AllLayouts = [...]string{"rows", "columns", "floating"}
+func calculateWindowsInvisibleBorder(hwnd ty.HWND) ty.RECT {
+	_frame, _ := jw32.DwmGetWindowAttribute(jw32.HWND(hwnd), jw32.DWMWA_EXTENDED_FRAME_BOUNDS)
+	frame, _ := _frame.(*jw32.RECT)
+	windowRect := jw32.GetWindowRect(jw32.HWND(hwnd))
+	invisibleWindowsBorder := ty.RECT{
+		Top:    int(frame.Top) - int(windowRect.Top),
+		Right:  int(frame.Right) - int(windowRect.Right),
+		Bottom: int(frame.Bottom) - int(windowRect.Bottom),
+		Left:   int(frame.Left) - int(windowRect.Left),
+	}
+	return invisibleWindowsBorder
+}
 
 func CreateLayout(name string) (Layout, bool) {
 	layout, ok := layoutToCreate[name]
