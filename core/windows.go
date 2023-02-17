@@ -12,6 +12,7 @@ var excludedClassNames = []string{
 	"ToolbarWindow32",
 	"SysListView32",
 	"SysTreeView32",
+	"EXCEL7",
 }
 
 func IsElibible(hwnd ty.HWND) bool {
