@@ -1,8 +1,8 @@
 package usecase
 
 import (
+	"circulate/core"
 	"circulate/layouts"
-	"circulate/store"
 	"fmt"
 	"log"
 )
@@ -15,7 +15,7 @@ func SetLayout(name string) error {
 		return fmt.Errorf("Unvalid layout {%v}", name)
 
 	}
-	workspace := store.GetActiveWorkspace()
+	workspace := core.GetActiveWorkspace()
 	workspace.Layout = newLayout
 	workspace.UpdateLayout()
 	return nil

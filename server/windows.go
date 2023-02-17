@@ -2,7 +2,6 @@ package server
 
 import (
 	"circulate/core"
-	"circulate/store"
 	"circulate/ty"
 	"circulate/usecase"
 	"circulate/win"
@@ -28,8 +27,8 @@ func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uint
 	if !core.IsElibible(ty.HWND(hwnd)) {
 		return 0
 	}
-	log.Printf("[server.ActiveWinEventHook] adding hwnd=%+v ActiveWorkspace=%+v", hwnd, store.GetContainer().ActiveWorkspace)
-	usecase.MoveToWorkspace(ty.HWND(hwnd), store.GetContainer().ActiveWorkspace)
+	log.Printf("[server.ActiveWinEventHook] adding hwnd=%+v ActiveWorkspace=%+v", hwnd, core.GetContainer().ActiveWorkspace)
+	usecase.MoveToWorkspace(ty.HWND(hwnd), core.GetContainer().ActiveWorkspace)
 
 	return 0
 }
@@ -43,7 +42,7 @@ func DestroyWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uin
 	}
 	visited[hwnd] = ""
 
-	for _, workspace := range store.GetContainer().Workspaces {
+	for _, workspace := range core.GetContainer().Workspaces {
 		removed := workspace.RemoveWindow(ty.HWND(hwnd))
 		if removed {
 			log.Printf("[server.DestroyWinEventHook] removed hwnd=%+v", hwnd)

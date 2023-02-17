@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"circulate/store"
+	"circulate/core"
 	"circulate/ty"
 	"circulate/win"
 	"log"
@@ -28,7 +28,7 @@ func FocusNext() {
 	log.Println("[usecase.FocusNext] activeWindow:", activeWindow)
 
 	activeWindowIndex := 0
-	hwnds := store.GetActiveWorkspace().WHWND
+	hwnds := core.GetActiveWorkspace().WHWND
 	log.Println(hwnds)
 	for i, hwnd := range hwnds {
 		if hwnd == activeWindow {
@@ -90,7 +90,7 @@ func FocusPrevious() {
 	log.Println("[usecase.FocusPrevious] activeWindow:", activeWindow)
 
 	activeWindowIndex := 0
-	hwnds := store.GetActiveWorkspace().WHWND
+	hwnds := core.GetActiveWorkspace().WHWND
 	log.Println(hwnds)
 	for i, hwnd := range hwnds {
 		if hwnd == activeWindow {
