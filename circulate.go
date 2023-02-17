@@ -1,7 +1,9 @@
 package main
 
 import (
+	"circulate/cmd"
 	"circulate/win"
+	"os"
 	"syscall"
 	"unsafe"
 
@@ -152,7 +154,12 @@ func translateMessage(msg *tMSG) {
 }
 
 func main() {
+	if len(os.Args) > 1 {
+		cmd.Execute()
+		return
+	}
 	className := "CirculateBorder"
+	windowText := "CirculateBorder"
 	moduleHandle := win.GetModuleHandle("")
 
 	fn := func(hwnd syscall.Handle, msg uint32, wparam, lparam uintptr) uintptr {
@@ -179,20 +186,14 @@ func main() {
 	wcx.Size = uint32(unsafe.Sizeof(wcx))
 	w32.RegisterClassEx(&wcx)
 
-	// if _, err := registerClassEx(&wcx); err != nil {
-	// 	log.Println(err)
-	// 	return
-	// }
-
 	createWindow(
 		className,
-		"Test Window",
+		windowText,
 		cWS_VISIBLE|cWS_OVERLAPPEDWINDOW,
-		cSW_USE_DEFAULT,
-		cSW_USE_DEFAULT,
-
-		cSW_USE_DEFAULT,
-		cSW_USE_DEFAULT,
+		100,
+		100,
+		300,
+		300,
 		0,
 		0,
 		syscall.Handle(moduleHandle),
