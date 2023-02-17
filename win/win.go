@@ -11,11 +11,21 @@ import (
 
 var (
 	user32                   = windows.NewLazyDLL("user32.dll")
+	AllowSetForegroundWindow = user32.NewProc("AllowSetForegroundWindow") // Move this to func
+	AttachThreadInput        = user32.NewProc("AttachThreadInput")        // Move this to func
+	enumWindows              = user32.NewProc("EnumWindows")
 	isIconic                 = user32.NewProc("IsIconic")
 	procSetWinEventHook      = user32.NewProc("SetWinEventHook")
-	enumWindows              = user32.NewProc("EnumWindows")
-	AllowSetForegroundWindow = user32.NewProc("AllowSetForegroundWindow")
-	AttachThreadInput        = user32.NewProc("AttachThreadInput")
+
+	CreateWindowExW  = user32.NewProc("CreateWindowExW")
+	DefWindowProcW   = user32.NewProc("DefWindowProcW")
+	DestroyWindow    = user32.NewProc("DestroyWindow")
+	DispatchMessageW = user32.NewProc("DispatchMessageW")
+	GetMessageW      = user32.NewProc("GetMessageW")
+	LoadCursorW      = user32.NewProc("LoadCursorW")
+	PostQuitMessage  = user32.NewProc("PostQuitMessage")
+	RegisterClassExW = user32.NewProc("RegisterClassExW")
+	TranslateMessage = user32.NewProc("TranslateMessage")
 )
 
 type WINEVENTPROC func(hWinEventHook HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr

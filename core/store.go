@@ -8,6 +8,8 @@ var w *Container
 
 var WindowGap = ty.RECT{Left: 10, Top: 10, Bottom: 10, Right: 10}
 
+const TRANSPARENCY_COLOUR = 0
+
 func SetContainer(container *Container) {
 	w = container
 }
