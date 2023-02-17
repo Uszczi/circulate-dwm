@@ -12,6 +12,7 @@ var (
 	AllLayouts    = [...]string{"rows", "columns", "floating"}
 	monitorWidth  int
 	monitorHeight int
+	WindowGap     = ty.RECT{Left: 7, Top: 10, Bottom: 10, Right: 7}
 )
 
 func init() {
@@ -26,10 +27,10 @@ type Layout interface {
 func handleSingleWindow(amount int, invisibleBorder ty.RECT) []ty.RECT {
 	fmt.Printf("%+v\n", invisibleBorder)
 	return []ty.RECT{{
-		Top:    -invisibleBorder.Top,
-		Right:  monitorWidth + invisibleBorder.Left - invisibleBorder.Right,
-		Bottom: monitorHeight - invisibleBorder.Bottom,
-		Left:   -invisibleBorder.Left,
+		Left:   -invisibleBorder.Left + WindowGap.Left,
+		Top:    -invisibleBorder.Top + WindowGap.Top,
+		Right:  monitorWidth + invisibleBorder.Left - invisibleBorder.Right - WindowGap.Right - WindowGap.Left,
+		Bottom: monitorHeight - invisibleBorder.Bottom - WindowGap.Bottom - WindowGap.Top,
 	}}
 }
 

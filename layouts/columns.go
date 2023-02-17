@@ -33,10 +33,10 @@ func (cl *ColumnsLayout) Calculate(windows []ty.HWND) []ty.RECT {
 	for _, hwnd := range windows {
 		invisibleBorder = calculateWindowsInvisibleBorder(hwnd)
 		rr := ty.RECT{
-			Top:    -invisibleBorder.Top + int(top),
-			Right:  invisibleBorder.Left - invisibleBorder.Right + int(right),
-			Bottom: int(bottom),
-			Left:   int(-invisibleBorder.Left) + int(left),
+			Left:   int(-invisibleBorder.Left) + int(left) + WindowGap.Left,
+			Top:    -invisibleBorder.Top + int(top) + WindowGap.Top,
+			Right:  invisibleBorder.Left - invisibleBorder.Right + int(right) - WindowGap.Right - WindowGap.Left,
+			Bottom: int(bottom) - WindowGap.Bottom - WindowGap.Top,
 		}
 
 		result = append(result, rr)

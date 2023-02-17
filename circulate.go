@@ -176,6 +176,7 @@ func main() {
 	user32 := syscall.NewLazyDLL("user32.dll")
 	procCreateSolidBrush := modgdi32.NewProc("CreateSolidBrush")
 	procSetLayeredWindowAttributes := user32.NewProc("SetLayeredWindowAttributes")
+	procCreatePen := modgdi32.NewProc("CreatePen")
 
 	brush, _, _ := procCreateSolidBrush.Call(TRANSPARENCY_COLOUR)
 	fmt.Println(brush)
@@ -228,7 +229,57 @@ func main() {
 
 	procSetLayeredWindowAttributes.Call(uintptr(wn), 0xffffff, 0x255, 1)
 
-	w32.SetWindowPos(w32.HWND(wn), w32.HWND_NOTOPMOST, 100, 100, 100, 100, w32.SWP_SHOWWINDOW|w32.SWP_NOACTIVATE)
+	w32.SetWindowPos(w32.HWND(wn), w32.HWND_NOTOPMOST, 100, 1000, 100, 100, w32.SWP_SHOWWINDOW|w32.SWP_NOACTIVATE)
+
+	var aa w32.PAINTSTRUCT
+	w32.BeginPaint(uintptr(wn), &aa)
+
+	// brush2, _, _ := procCreateSolidBrush.Call(1212122)
+	pen, pen2, pen3 := procCreatePen.Call(0, 10, 123434)
+	fmt.Println(pen, pen2, pen3)
+	// w32.SelectObject(`;systeumaa.Hdc, brush2)
+	w32.SelectObject(aa.Hdc, pen)
+	re := w32.Rectangle(aa.Hdc, 0, 0, 100, 100)
+	fmt.Println(re)
+
+	w32.EndPaint(uintptr(wn), &aa)
+
+	// pub extern "system" fn border_window(
+	//     window: HWND,
+	//     message: u32,
+	//     wparam: WPARAM,
+	//     lparam: LPARAM,
+	// ) -> LRESULT {
+	//     unsafe {
+	//         match message as u32 {
+	//             WM_PAINT => {
+	//                 // OKEJ TUTAJ JEST CALA MAGIA
+	//                 let border_rect = *BORDER_RECT.lock();
+	//                 let mut ps = PAINTSTRUCT::default();
+	//                 let hdc = BeginPaint(window, &mut ps);
+	//                 let hpen = CreatePen(
+	//                     PS_SOLID,
+	//                     BORDER_WIDTH.load(Ordering::SeqCst),
+	//                     COLORREF(BORDER_COLOUR_CURRENT.load(Ordering::SeqCst)),
+	//                 );
+	//                 let hbrush = WindowsApi::create_solid_brush(TRANSPARENCY_COLOUR);
+	//
+	//                 SelectObject(hdc, hpen);
+	//                 SelectObject(hdc, hbrush);
+	//                 Rectangle(hdc, 0, 0, border_rect.right, border_rect.bottom);
+	//                 EndPaint(window, &ps);
+	//                 ValidateRect(window, None);
+	//
+	//                 LRESULT(0)
+	//             }
+	//             WM_DESTROY => {
+	//                 PostQuitMessage(0);
+	//                 LRESULT(0)
+	//             }
+	//             _ => DefWindowProcW(window, message, wparam, lparam),
+	//         }
+	//     }
+	// }
 
 	for {
 		msg := tMSG{}
