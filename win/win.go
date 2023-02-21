@@ -3,29 +3,11 @@ package win
 import (
 	"circulate/ty"
 	"syscall"
+	"unsafe"
 
 	jw32 "github.com/jcollie/w32"
-	_ "github.com/tadvi/winc/w32"
+	"github.com/tadvi/winc/w32"
 	"golang.org/x/sys/windows"
-)
-
-var (
-	user32                   = windows.NewLazyDLL("user32.dll")
-	AllowSetForegroundWindow = user32.NewProc("AllowSetForegroundWindow") // Move this to func
-	AttachThreadInput        = user32.NewProc("AttachThreadInput")        // Move this to func
-	enumWindows              = user32.NewProc("EnumWindows")
-	isIconic                 = user32.NewProc("IsIconic")
-	procSetWinEventHook      = user32.NewProc("SetWinEventHook")
-
-	CreateWindowExW  = user32.NewProc("CreateWindowExW")
-	DefWindowProcW   = user32.NewProc("DefWindowProcW")
-	DestroyWindow    = user32.NewProc("DestroyWindow")
-	DispatchMessageW = user32.NewProc("DispatchMessageW")
-	GetMessageW      = user32.NewProc("GetMessageW")
-	LoadCursorW      = user32.NewProc("LoadCursorW")
-	PostQuitMessage  = user32.NewProc("PostQuitMessage")
-	RegisterClassExW = user32.NewProc("RegisterClassExW")
-	TranslateMessage = user32.NewProc("TranslateMessage")
 )
 
 type WINEVENTPROC func(hWinEventHook HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr
@@ -49,6 +31,111 @@ type (
 	LPWSTR        *WCHAR
 	WCHAR         uint16
 )
+
+type tWNDCLASSEXW struct {
+	size       uint32
+	style      uint32
+	wndProc    uintptr
+	clsExtra   int32
+	wndExtra   int32
+	instance   syscall.Handle
+	icon       syscall.Handle
+	cursor     syscall.Handle
+	background syscall.Handle
+	menuName   *uint16
+	className  *uint16
+	iconSm     syscall.Handle
+}
+
+var (
+	user32                     = windows.NewLazyDLL("user32.dll")
+	AllowSetForegroundWindow   = user32.NewProc("AllowSetForegroundWindow") // Move this to func
+	AttachThreadInput          = user32.NewProc("AttachThreadInput")        // Move this to func
+	enumWindows                = user32.NewProc("EnumWindows")
+	isIconic                   = user32.NewProc("IsIconic")
+	procSetWinEventHook        = user32.NewProc("SetWinEventHook")
+	createWindowExW            = user32.NewProc("CreateWindowExW")
+	defWindowProcW             = user32.NewProc("DefWindowProcW")
+	destroyWindow              = user32.NewProc("DestroyWindow")
+	dispatcheW                 = user32.NewProc("GetMessageW")
+	LoadCursorW                = user32.NewProc("LoadCursorW")
+	postQuitMessage            = user32.NewProc("PostQuitMessage")
+	registerClassExW           = user32.NewProc("RegisterClassExW")
+	setLayeredWindowAttributes = user32.NewProc("SetLayeredWindowAttributes")
+
+	modgdi32         = syscall.NewLazyDLL("gdi32.dll")
+	createSolidBrush = modgdi32.NewProc("CreateSolidBrush")
+	createPen        = modgdi32.NewProc("CreatePen")
+)
+
+func CreateWindow(eXStyle uint32, className, windowName string, style uint32, x, y, width, height int64, parent, menu, instance syscall.Handle) error {
+	ret, _, err := createWindowExW.Call(
+		uintptr(eXStyle),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(className))),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(windowName))),
+		uintptr(style),
+		uintptr(x),
+		uintptr(y),
+		uintptr(width),
+		uintptr(height),
+		uintptr(parent),
+		uintptr(menu),
+		uintptr(instance),
+		uintptr(0),
+	)
+	if ret == 0 {
+		return err
+	}
+	return nil
+}
+
+func DefWindowProc(hwnd syscall.Handle, msg uint32, wparam, lparam uintptr) uintptr {
+	// TODO what it does?
+	ret, _, _ := defWindowProcW.Call(
+		uintptr(hwnd),
+		uintptr(msg),
+		uintptr(wparam),
+		uintptr(lparam),
+	)
+	return uintptr(ret)
+}
+
+func DestroyWindow(hwnd syscall.Handle) error {
+	ret, _, err := destroyWindow.Call(uintptr(hwnd))
+	if ret == 0 {
+		return err
+	}
+	return nil
+}
+
+func PostQuitMessage(exitCode int32) {
+	postQuitMessage.Call(uintptr(exitCode))
+}
+
+func RegisterClassEx(wcx *tWNDCLASSEXW) (uint16, error) {
+	ret, _, err := registerClassExW.Call(
+		uintptr(unsafe.Pointer(wcx)),
+	)
+	if ret == 0 {
+		return 0, err
+	}
+	return uint16(ret), nil
+}
+
+func CreateSolidBrush(color uint32) w32.HBRUSH {
+	brush, _, _ := createSolidBrush.Call(uintptr(color))
+	return w32.HBRUSH(brush)
+}
+
+func CreatePen(penType uint, width uint, color uintptr) uintptr {
+	pen, _, _ := createPen.Call(0, uintptr(width), uintptr(color))
+	return pen
+}
+
+func SetLayeredWindowAttributes(hwnd ty.HWND, color uint, notsure uint, notsure2 uint) (uintptr, error) {
+	res, _, err := setLayeredWindowAttributes.Call(uintptr(hwnd), uintptr(color), uintptr(notsure), uintptr(notsure2))
+	return res, err
+}
 
 func GetActiveWindow() ty.HWND {
 	return ty.HWND(jw32.GetActiveWindow())
