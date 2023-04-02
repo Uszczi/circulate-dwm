@@ -4,9 +4,26 @@ import (
 	"circulate/ty"
 	"circulate/win"
 	"fmt"
+	"syscall"
 
 	"github.com/jcollie/w32"
 )
+
+func PrintDebugWindowNew(hwnd ty.HWND) {
+	windowText := win.GetWindowText(hwnd)
+	className, _ := win.GetClassName(hwnd)
+	_, processId := w32.GetWindowThreadProcessId(w32.HWND(hwnd))
+	ha := w32.OpenProcess(w32.PROCESS_QUERY_INFORMATION, false, uint32(processId))
+
+	bufferSize := uint32(256)
+	b := make([]uint16, bufferSize)
+	win.QueryFullProcessImageName(syscall.Handle(ha), 0, &b[0], &bufferSize)
+
+	exe := syscall.UTF16ToString(b)
+
+	fmt.Printf("hwnd: %v, title:%v, exe: %v, className: %v\n", hwnd, windowText, exe, className)
+
+}
 
 func PrintDebugWindow(hwnd ty.HWND) {
 	isWindowVisible := win.IsWindowVisible(hwnd)

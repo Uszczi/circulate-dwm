@@ -66,6 +66,9 @@ var (
 	modgdi32         = syscall.NewLazyDLL("gdi32.dll")
 	createSolidBrush = modgdi32.NewProc("CreateSolidBrush")
 	createPen        = modgdi32.NewProc("CreatePen")
+
+	modkernel32                = syscall.NewLazyDLL("kernel32.dll")
+	queryFullProcessImageNameW = modkernel32.NewProc("QueryFullProcessImageNameW")
 )
 
 func CreateWindow(eXStyle uint32, className, windowName string, style uint32, x, y, width, height int64, parent, menu, instance syscall.Handle) error {
@@ -210,4 +213,24 @@ func EnumWindows(callback func(ty.HWND)) {
 		return 1
 	})
 	_, _, _ = enumWindows.Call(cb, 0)
+}
+
+func QueryFullProcessImageName(process syscall.Handle, flags uint32, exeName *uint16, size *uint32) error {
+	r1, _, e1 := syscall.Syscall6(
+		queryFullProcessImageNameW.Addr(),
+		4,
+		uintptr(process),
+		uintptr(flags),
+		uintptr(unsafe.Pointer(exeName)),
+		uintptr(unsafe.Pointer(size)),
+		0,
+		0)
+	if r1 == 0 {
+		if e1 != ERROR_SUCCESS {
+			return e1
+		} else {
+			return syscall.EINVAL
+		}
+	}
+	return nil
 }

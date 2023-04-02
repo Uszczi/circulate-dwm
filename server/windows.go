@@ -24,6 +24,7 @@ const (
 )
 
 func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
+	return 0
 	if !core.IsElibible(ty.HWND(hwnd)) {
 		return 0
 	}
@@ -36,6 +37,7 @@ func ActiveWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uint
 var visited = map[uintptr]string{}
 
 func DestroyWinEventHook(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd uintptr, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {
+	return 0
 	_, ok := visited[hwnd]
 	if ok {
 		return 0

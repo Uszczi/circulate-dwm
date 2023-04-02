@@ -15,22 +15,24 @@ var borderWidth = 3
 
 func (bw *BorderWindow) SetPosition(rect ty.RECT) {
 	log.Printf("BorderWindow.SetPosition rect=%+v\n", rect)
-	w32.SetWindowPos(w32.HWND(*bw), w32.HWND_NOTOPMOST, rect.Left, rect.Top, rect.Right, rect.Bottom, w32.SWP_SHOWWINDOW|w32.SWP_NOACTIVATE)
+	w32.SetWindowPos(w32.HWND(*bw), w32.HWND_TOPMOST, rect.Left, rect.Top, rect.Right, rect.Bottom, w32.SWP_SHOWWINDOW|w32.SWP_NOACTIVATE)
 }
 
 func (bw *BorderWindow) Hide() {
-	log.Println("BorderWindow.Hide")
 	win.ShowWindow(ty.HWND(*bw), 0)
 }
 
 func SetBorderWindow(hwnd ty.HWND) {
-	log.Printf("BorderWindow.SetWindow hwnd=%+v\n", hwnd)
+	log.Printf("BorderWindow.SetWindow border: %v hwnd: %+v\n", Borderwindow, hwnd)
+	PrintDebugWindowNew(hwnd)
 	if Borderwindow == nil {
 		CreateBorderWindow()
 	}
 
 	rect := w32.GetWindowRect(uintptr(hwnd))
-	if rect.Bottom < 1 {
+	if win.GetWindowText(hwnd) == "" || rect.Top < -100 {
+		log.Printf("[SetBorderWindow] hidding")
+		Borderwindow.Hide()
 		return
 	}
 
